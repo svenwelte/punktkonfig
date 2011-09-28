@@ -38,6 +38,9 @@
 
 (add-hook 'slime-repl-mode-hook 'clojure-mode-font-lock-setup)
 
+;; always follow symlinks for version controlled files
+(setq vc-follow-symlinks t)
+
 (find-file "~/.emacs")
 (switch-to-buffer ".emacs")
 
