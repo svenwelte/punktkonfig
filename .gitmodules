@@ -1,0 +1,24 @@
+[submodule "emacs.d/bundle/color-theme"]
+	path = emacs.d/bundle/color-theme
+	url = https://github.com/emacsmirror/color-theme.git
+[submodule "emacs.d/bundle/clojure-mode"]
+	path = emacs.d/bundle/clojure-mode
+	url = https://github.com/technomancy/clojure-mode.git
+[submodule "emacs.d/bundle/paredit"]
+	path = emacs.d/bundle/paredit
+	url = https://github.com/emacsmirror/paredit.git
+[submodule "emacs.d/bundle/undo-tree"]
+	path = emacs.d/bundle/undo-tree
+	url = https://github.com/emacsmirror/undo-tree.git
+[submodule "emacs.d/bundle/evil"]
+	path = emacs.d/bundle/evil
+	url = git://gitorious.org/evil/evil.git
+[submodule "emacs.d/bundle/textmate"]
+	path = emacs.d/bundle/textmate
+	url = https://github.com/defunkt/textmate.el.git
+[submodule "emacs.d/bundle/color-theme-ir-black"]
+	path = emacs.d/bundle/color-theme-ir-black
+	url = https://github.com/burke/color-theme-ir-black.git
+[submodule "emacs.d/bundle/surround"]
+	path = emacs.d/bundle/surround
+	url = https://github.com/timcharper/evil-surround.git
