@@ -20,7 +20,7 @@
       (load personal))))
 
 
-(add-to-list 'load-path "~/.emacs.d/bundle/solarized")
+; (add-to-list 'load-path "~/.emacs.d/bundle/clojure-mode")
 
 (vendor 'color-theme)
 (vendor 'color-theme-ir-black)
@@ -32,29 +32,60 @@
 (vendor 'evil)
 (vendor 'surround)
 (vendor 'textmate)
-;; (vendor 'haml-mode)
-;; (vendor 'sass-mode)
-(load "~/.emacs.d/vendor/peepopen.el")
+(vendor 'auto-complete)
 
+(load "~/.emacs.d/vendor/peepopen.el")
+(load "~/.emacs.d/bundle/clojure-mode/clojure-test-mode.el")
+(load "~/.emacs.d/bundle/auto-complete/auto-complete-config.el")
+
+;; always open in the same window
+(setq ns-pop-up-frames nil)
+
+;; clojure mode related stuff
+(defun turn-on-clojure ()
+  (paredit-mode 1)
+  (clojure-test-mode 1))
+
+(add-hook 'clojure-mode-hook 'turn-on-clojure)
 (add-hook 'slime-repl-mode-hook 'clojure-mode-font-lock-setup)
 
 ;; always follow symlinks for version controlled files
 (setq vc-follow-symlinks t)
 
 (find-file "~/.emacs")
-(switch-to-buffer ".emacs")
+(switch-to-buffer "emacs.el")
+(cd "~/projects")
 
 ;; enable global modes
 (ido-mode 1)
 (evil-mode 1)
 (global-surround-mode 1)
+(ac-config-default)
 
 ;; whitespace police
 (global-set-key (kbd "<f5>") 'whitespace-cleanup)
 (setq show-trailing-whitespace t)
 
+(defun run-tests ()
+  (interactive)
+  (save-some-buffers 1)
+  (clojure-test-run-tests))
+
+(defun javadoc-lookup (start end)
+  (interactive "r")
+  (let ((q (buffer-substring-no-properties start end)))
+    (if (< (length q) 100)
+        (browse-url (concat "http://www.google.com/search?gfns=1&q=javadoc%20"
+                            (url-hexify-string q)))
+      (message (format "string too long for query: %d chars | max 100" (length q))))))
+
 ;; special key bindings
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
+(define-key evil-insert-state-map (kbd "<S-tab>") 'ac-complete-slime)
+(define-key evil-normal-state-map ",rt" 'run-tests)
+(define-key evil-visual-state-map ",d" 'javadoc-lookup)
+(define-key evil-normal-state-map ",ef" 'slime-compile-and-load-file)
+(define-key evil-normal-state-map ",ci" 'comment-or-uncomment-region)
 (define-key evil-normal-state-map ",q" 'evil-quit)
 (define-key evil-normal-state-map ",t" 'peepopen-goto-file-gui)
 (define-key evil-normal-state-map ",b" 'switch-to-buffer)
@@ -73,6 +104,7 @@
 (define-key evil-insert-state-map "\M-v" 'yank)
 (define-key evil-normal-state-map "\M-v" 'yank)
 
+(auto-save-mode 0)
 (setq make-backup-files nil)
 (setq auto-save-default nil)
 (setq-default tab-width 2)
@@ -125,3 +157,6 @@
 
 ;; use inconsolata as default font
 (set-face-attribute 'default nil :font "Inconsolata-12")
+
+;; disable for clojure
+(setq font-lock-verbose nil)
