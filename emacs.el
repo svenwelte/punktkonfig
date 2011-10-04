@@ -33,6 +33,7 @@
 (vendor 'surround)
 (vendor 'textmate)
 (vendor 'auto-complete)
+(vendor 'ace-jump-mode)
 
 (load "~/.emacs.d/vendor/peepopen.el")
 (load "~/.emacs.d/bundle/clojure-mode/clojure-test-mode.el")
@@ -104,6 +105,12 @@
 (define-key evil-insert-state-map "\M-v" 'yank)
 (define-key evil-normal-state-map "\M-v" 'yank)
 
+;; ace jump move bindings
+(define-key evil-normal-state-map (kbd "SPC") 'ace-jump-mode)
+(define-key evil-normal-state-map (kbd "<S-SPC>") 'ace-jump-char-mode)
+(define-key evil-visual-state-map (kbd "SPC") 'ace-jump-mode)
+(define-key evil-visual-state-map (kbd "<S-SPC>") 'ace-jump-char-mode)
+
 (auto-save-mode 0)
 (setq make-backup-files nil)
 (setq auto-save-default nil)
@@ -160,3 +167,4 @@
 
 ;; disable for clojure
 (setq font-lock-verbose nil)
+
