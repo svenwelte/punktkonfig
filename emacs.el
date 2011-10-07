@@ -20,14 +20,12 @@
       (load personal))))
 
 
-; (add-to-list 'load-path "~/.emacs.d/bundle/clojure-mode")
-
 (vendor 'color-theme)
 (vendor 'color-theme-ir-black)
 (vendor 'clojure-mode)
 (vendor 'slime)
 (vendor 'paredit)
-(vendor 'full-ack)
+;(vendor 'full-ack)
 (vendor 'undo-tree)
 (vendor 'evil)
 (vendor 'surround)
@@ -36,6 +34,7 @@
 (vendor 'ace-jump-mode)
 
 (load "~/.emacs.d/vendor/peepopen.el")
+(load "~/.emacs.d/vendor/cdargs.el")
 (load "~/.emacs.d/bundle/clojure-mode/clojure-test-mode.el")
 (load "~/.emacs.d/bundle/auto-complete/auto-complete-config.el")
 
@@ -62,6 +61,9 @@
 (evil-mode 1)
 (global-surround-mode 1)
 (ac-config-default)
+
+(setq show-paren-delay 0.2)
+(show-paren-mode t)
 
 ;; whitespace police
 (global-set-key (kbd "<f5>") 'whitespace-cleanup)
@@ -168,3 +170,10 @@
 ;; disable for clojure
 (setq font-lock-verbose nil)
 
+;; increase window size (default size is too small)
+(add-to-list 'default-frame-alist '(height . 64))
+(add-to-list 'default-frame-alist '(width . 160))
+
+(defun cv ()
+  (interactive)
+  (cdargs))
