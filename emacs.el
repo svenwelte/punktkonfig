@@ -41,13 +41,24 @@
 ;; always open in the same window
 (setq ns-pop-up-frames nil)
 
-;; clojure mode related stuff
-(defun turn-on-clojure ()
-  (paredit-mode 1)
-  (clojure-test-mode 1))
 
-(add-hook 'clojure-mode-hook 'turn-on-clojure)
-(add-hook 'slime-repl-mode-hook 'clojure-mode-font-lock-setup)
+;; clojure mode related stuff
+(setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol
+      slime-net-coding-system 'utf-8-unix)
+
+(slime-setup
+      '(slime-repl slime-banner slime-fuzzy))
+
+(add-hook 'clojure-mode-hook
+          '(lambda ()
+             (paredit-mode t)
+             (clojure-test-mode t)))
+
+(add-hook 'slime-repl-mode-hook
+          '(lambda ()
+             (paredit-mode t)
+             (clojure-mode-font-lock-setup)))
+
 
 ;; always follow symlinks for version controlled files
 (setq vc-follow-symlinks t)
@@ -177,3 +188,4 @@
 (defun cv ()
   (interactive)
   (cdargs))
+

@@ -24,7 +24,7 @@
 	url = https://github.com/timcharper/evil-surround.git
 [submodule "emacs.d/bundle/slime"]
 	path = emacs.d/bundle/slime
-	url = https://github.com/nablaone/slime.git
+	url = https://github.com/technomancy/slime.git
 [submodule "emacs.d/bundle/auto-complete"]
 	path = emacs.d/bundle/auto-complete
 	url = https://github.com/m2ym/auto-complete.git
