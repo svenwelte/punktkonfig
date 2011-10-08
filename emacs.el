@@ -33,6 +33,9 @@
 (vendor 'auto-complete)
 (vendor 'ace-jump-mode)
 
+(vendor 'haml-mode)
+(vendor 'sass-mode)
+
 (load "~/.emacs.d/vendor/peepopen.el")
 (load "~/.emacs.d/vendor/cdargs.el")
 (load "~/.emacs.d/bundle/clojure-mode/clojure-test-mode.el")
@@ -43,6 +46,7 @@
 
 
 ;; clojure mode related stuff
+(setq slime-protocol-version 'ignore)
 (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol
       slime-net-coding-system 'utf-8-unix)
 
@@ -59,13 +63,20 @@
              (paredit-mode t)
              (clojure-mode-font-lock-setup)))
 
+(defun swank ()
+  (interactive)
+  (slime-connect "127.0.0.1" "4005"))
+
+(defun run-tests ()
+  (interactive)
+  (save-some-buffers 1)
+  (clojure-test-run-tests))
 
 ;; always follow symlinks for version controlled files
 (setq vc-follow-symlinks t)
 
 (find-file "~/.emacs")
 (switch-to-buffer "emacs.el")
-(cd "~/projects")
 
 ;; enable global modes
 (ido-mode 1)
@@ -80,11 +91,6 @@
 (global-set-key (kbd "<f5>") 'whitespace-cleanup)
 (setq show-trailing-whitespace t)
 
-(defun run-tests ()
-  (interactive)
-  (save-some-buffers 1)
-  (clojure-test-run-tests))
-
 (defun javadoc-lookup (start end)
   (interactive "r")
   (let ((q (buffer-substring-no-properties start end)))
@@ -95,6 +101,7 @@
 
 ;; special key bindings
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
+(global-set-key (kbd "<f6>") 'swank)
 (define-key evil-insert-state-map (kbd "<S-tab>") 'ac-complete-slime)
 (define-key evil-normal-state-map ",rt" 'run-tests)
 (define-key evil-visual-state-map ",d" 'javadoc-lookup)
@@ -103,6 +110,7 @@
 (define-key evil-normal-state-map ",q" 'evil-quit)
 (define-key evil-normal-state-map ",t" 'peepopen-goto-file-gui)
 (define-key evil-normal-state-map ",b" 'switch-to-buffer)
+
 
 ;; special window management
 (define-key evil-normal-state-map ",h" 'evil-window-left)
