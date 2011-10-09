@@ -37,3 +37,6 @@
 [submodule "emacs.d/bundle/sass-mode"]
 	path = emacs.d/bundle/sass-mode
 	url = https://github.com/nex3/sass-mode.git
+[submodule "emacs.d/bundle/ruby-electric"]
+	path = emacs.d/bundle/ruby-electric
+	url = https://github.com/neomantic/ruby-electric.git

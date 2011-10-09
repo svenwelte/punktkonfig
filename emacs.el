@@ -32,6 +32,7 @@
 (vendor 'textmate)
 (vendor 'auto-complete)
 (vendor 'ace-jump-mode)
+(vendor 'ruby-electric)
 
 (vendor 'haml-mode)
 (vendor 'sass-mode)
@@ -44,6 +45,7 @@
 ;; always open in the same window
 (setq ns-pop-up-frames nil)
 
+(setq js-indent-level 2)
 
 ;; clojure mode related stuff
 (setq slime-protocol-version 'ignore)
@@ -76,7 +78,7 @@
 (setq vc-follow-symlinks t)
 
 (find-file "~/.emacs")
-(switch-to-buffer "emacs.el")
+(switch-to-buffer ".emacs")
 
 ;; enable global modes
 (ido-mode 1)
@@ -86,6 +88,13 @@
 
 (setq show-paren-delay 0.2)
 (show-paren-mode t)
+
+;; some ruby stuff
+(add-hook 'ruby-mode-hook
+          '(lambda ()
+             (ruby-electric-mode t)
+             (local-unset-key "\r")
+             (local-set-key "\r" 'newline-and-indent) ))
 
 ;; whitespace police
 (global-set-key (kbd "<f5>") 'whitespace-cleanup)
@@ -125,6 +134,8 @@
 ;; pasting Cmd-v / M-v
 (define-key evil-insert-state-map "\M-v" 'yank)
 (define-key evil-normal-state-map "\M-v" 'yank)
+(define-key evil-insert-state-map "\M-c" 'evil-yank)
+(define-key evil-normal-state-map "\M-c" 'evil-yank)
 
 ;; ace jump move bindings
 (define-key evil-normal-state-map (kbd "SPC") 'ace-jump-mode)
@@ -196,4 +207,3 @@
 (defun cv ()
   (interactive)
   (cdargs))
-
