@@ -40,3 +40,6 @@
 [submodule "emacs.d/bundle/ruby-electric"]
 	path = emacs.d/bundle/ruby-electric
 	url = https://github.com/neomantic/ruby-electric.git
+[submodule "emacs.d/bundle/json-mode"]
+	path = emacs.d/bundle/json-mode
+	url = https://github.com/joshwnj/json-mode.git

@@ -36,6 +36,7 @@
 
 (vendor 'haml-mode)
 (vendor 'sass-mode)
+(vendor 'json-mode)
 
 (load "~/.emacs.d/vendor/peepopen.el")
 (load "~/.emacs.d/vendor/cdargs.el")
