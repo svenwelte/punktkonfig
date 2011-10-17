@@ -1,6 +1,3 @@
-;; For loading libraries from the vendor directory
-;; Modified from defunkt's original version to support autoloading.
-;; http://github.com/defunkt/emacs/blob/master/defunkt/defuns.el
 (defun vendor (library &rest autoload-functions)
   (let* ((file (symbol-name library))
          (normal (concat "~/.emacs.d/bundle/" file))
@@ -49,6 +46,7 @@
 (setq js-indent-level 2)
 
 ;; clojure mode related stuff
+(setq lisp-indent-offset nil)
 (setq slime-protocol-version 'ignore)
 (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol
       slime-net-coding-system 'utf-8-unix)
@@ -115,7 +113,10 @@
 (define-key evil-insert-state-map (kbd "<S-tab>") 'ac-complete-slime)
 (define-key evil-normal-state-map ",rt" 'run-tests)
 (define-key evil-visual-state-map ",d" 'javadoc-lookup)
-(define-key evil-normal-state-map ",ef" 'slime-compile-and-load-file)
+(define-key evil-normal-state-map ",ef" '(lambda ()
+                                           (interactive)
+                                           (save-some-buffers t)
+                                           (slime-compile-and-load-file)))
 (define-key evil-normal-state-map ",ci" 'comment-or-uncomment-region)
 (define-key evil-normal-state-map ",q" 'evil-quit)
 (define-key evil-normal-state-map ",t" 'peepopen-goto-file-gui)
@@ -144,11 +145,27 @@
 (define-key evil-visual-state-map (kbd "SPC") 'ace-jump-mode)
 (define-key evil-visual-state-map (kbd "<S-SPC>") 'ace-jump-char-mode)
 
+
+;;
+;; some octave support
+;;
+(add-hook 'octave-mode-hook
+(setq inferior-octave-program "~/bin/octave")
+  '(lambda ()
+     (define-key evil-normal-state-local-map ",er" 'octave-send-region)
+     (define-key evil-normal-state-local-map ",cc" 'octave-send-region)))
+
+
 (auto-save-mode 0)
 (setq make-backup-files nil)
 (setq auto-save-default nil)
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
+
+;;
+;; javascript
+;;
+(setq js-indent-level 2)
 
 
 ;;
