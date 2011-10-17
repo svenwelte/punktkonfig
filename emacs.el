@@ -77,7 +77,7 @@
 (setq vc-follow-symlinks t)
 
 (find-file "~/.emacs")
-(switch-to-buffer ".emacs")
+(switch-to-buffer "emacs.el")
 
 ;; enable global modes
 (ido-mode 1)
@@ -149,8 +149,8 @@
 ;;
 ;; some octave support
 ;;
-(add-hook 'octave-mode-hook
 (setq inferior-octave-program "~/bin/octave")
+(add-hook 'octave-mode-hook
   '(lambda ()
      (define-key evil-normal-state-local-map ",er" 'octave-send-region)
      (define-key evil-normal-state-local-map ",cc" 'octave-send-region)))
