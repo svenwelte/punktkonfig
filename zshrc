@@ -17,3 +17,6 @@ alias root="sudo zsh"
 
 # do not autocorrect at all
 unsetopt correct_all
+
+# do not share histories
+unsetopt SHARE_HISTORY

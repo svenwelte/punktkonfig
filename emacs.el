@@ -150,6 +150,12 @@
 ;; some octave support
 ;;
 (setq inferior-octave-program "~/bin/octave")
+(setq ;; inferior-octave-program "/opt/local/bin/octave"
+      octave-auto-indent t
+      octave-auto-newline t)
+
+(setq auto-mode-alist
+      (cons '("\\.m$" . octave-mode) auto-mode-alist))
 (add-hook 'octave-mode-hook
   '(lambda ()
      (define-key evil-normal-state-local-map ",er" 'octave-send-region)
