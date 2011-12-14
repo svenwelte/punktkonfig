@@ -16,6 +16,8 @@
     (when (file-exists-p (concat personal ".el"))
       (load personal))))
 
+(add-to-list 'exec-path "/opt/local/bin")
+(setenv "PATH" (concat (getenv "PATH") ":/opt/local/bin"))
 
 (vendor 'color-theme)
 (vendor 'color-theme-ir-black)
@@ -97,6 +99,7 @@
 
 ;; whitespace police
 (global-set-key (kbd "<f5>") 'whitespace-cleanup)
+(define-key global-map (kbd "RET") 'newline-and-indent)
 (setq show-trailing-whitespace t)
 
 (defun javadoc-lookup (start end)
@@ -145,8 +148,27 @@
 (define-key evil-visual-state-map (kbd "SPC") 'ace-jump-mode)
 (define-key evil-visual-state-map (kbd "<S-SPC>") 'ace-jump-char-mode)
 
-
 ;;
+;; buffer management
+;;
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'forward)
+
+(setq ido-enable-flex-matching t)
+(setq ido-decorations (quote ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")))
+(defun ido-disable-line-trucation () (set (make-local-variable 'truncate-lines) nil))
+(add-hook 'ido-minibuffer-setup-hook 'ido-disable-line-trucation)
+
+(add-hook 'ido-setup-hook
+          (lambda ()
+            (define-key ido-completion-map [down] 'ido-next-match)
+            (define-key ido-completion-map [up] 'ido-prev-match)))
+
+(setq evil-shift-width 2)
+(add-hook 'after-change-major-mode-hook
+          (function (lambda ()
+                      (setq evil-shift-width 2))))
+
 ;; some octave support
 ;;
 (setq inferior-octave-program "~/bin/octave")
@@ -219,7 +241,7 @@
 (setq inhibit-splash-screen t)
 
 ;; use inconsolata as default font
-(set-face-attribute 'default nil :font "Inconsolata-12")
+(set-face-attribute 'default nil :font "Inconsolata-16")
 
 ;; disable for clojure
 (setq font-lock-verbose nil)
@@ -231,3 +253,31 @@
 (defun cv ()
   (interactive)
   (cdargs))
+
+(defun my-ido-project-files ()
+  "Use ido to select a file from the project."
+  (interactive)
+  (let (my-project-root project-files tbl)
+    (setq my-project-root (textmate-project-root))
+    ;; get project files
+    (setq project-files
+          (split-string
+           (shell-command-to-string
+            (concat "ack " my-project-root " -f")) "\n"))
+    ;; populate hash table (display repr => path)
+    (setq tbl (make-hash-table :test 'equal))
+    (let (ido-list)
+      (mapc (lambda (path)
+              ;; format path for display in ido list
+              ;; strip project root
+              (setq key (replace-regexp-in-string (concat my-project-root) "" path))
+              ;; remove trailing | or /
+              ;; (setq key (replace-regexp-in-string "\\(|\\|/\\)$" "" key))
+              (puthash key path tbl)
+              (push key ido-list)
+              )
+            project-files
+            )
+      (find-file (gethash (ido-completing-read "project-files: " ido-list) tbl)))))
+
+(define-key evil-normal-state-map ",t" 'my-ido-project-files)
