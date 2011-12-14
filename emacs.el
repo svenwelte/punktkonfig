@@ -1,18 +1,18 @@
 (defun vendor (library &rest autoload-functions)
   (let* ((file (symbol-name library))
-         (normal (concat "~/.emacs.d/bundle/" file))
-         (suffix (concat normal ".el"))
-         (personal (concat "~/.emacs.d/custom/" file))
-         (found nil))
+	 (normal (concat "~/.emacs.d/bundle/" file))
+	 (suffix (concat normal ".el"))
+	 (personal (concat "~/.emacs.d/custom/" file))
+	 (found nil))
     (cond
      ((file-directory-p normal) (add-to-list 'load-path normal) (set 'found t))
      ((file-directory-p suffix) (add-to-list 'load-path suffix) (set 'found t))
      ((file-exists-p suffix)  (set 'found t)))
     (when found
       (if autoload-functions
-          (dolist (autoload-function autoload-functions)
-            (autoload autoload-function (symbol-name library) nil t))
-        (require library)))
+	  (dolist (autoload-function autoload-functions)
+	    (autoload autoload-function (symbol-name library) nil t))
+	(require library)))
     (when (file-exists-p (concat personal ".el"))
       (load personal))))
 
@@ -32,6 +32,8 @@
 (vendor 'auto-complete)
 (vendor 'ace-jump-mode)
 (vendor 'ruby-electric)
+
+
 
 (vendor 'haml-mode)
 (vendor 'sass-mode)
@@ -57,14 +59,14 @@
       '(slime-repl slime-banner slime-fuzzy))
 
 (add-hook 'clojure-mode-hook
-          '(lambda ()
-             (paredit-mode t)
-             (clojure-test-mode t)))
+	  '(lambda ()
+	     (paredit-mode t)
+	     (clojure-test-mode t)))
 
 (add-hook 'slime-repl-mode-hook
-          '(lambda ()
-             (paredit-mode t)
-             (clojure-mode-font-lock-setup)))
+	  '(lambda ()
+	     (paredit-mode t)
+	     (clojure-mode-font-lock-setup)))
 
 (defun swank ()
   (interactive)
@@ -92,10 +94,10 @@
 
 ;; some ruby stuff
 (add-hook 'ruby-mode-hook
-          '(lambda ()
-             (ruby-electric-mode t)
-             (local-unset-key "\r")
-             (local-set-key "\r" 'newline-and-indent) ))
+	  '(lambda ()
+	     (ruby-electric-mode t)
+	     (local-unset-key "\r")
+	     (local-set-key "\r" 'newline-and-indent) ))
 
 ;; whitespace police
 (global-set-key (kbd "<f5>") 'whitespace-cleanup)
@@ -106,8 +108,8 @@
   (interactive "r")
   (let ((q (buffer-substring-no-properties start end)))
     (if (< (length q) 100)
-        (browse-url (concat "http://www.google.com/search?gfns=1&q=javadoc%20"
-                            (url-hexify-string q)))
+	(browse-url (concat "http://www.google.com/search?gfns=1&q=javadoc%20"
+			    (url-hexify-string q)))
       (message (format "string too long for query: %d chars | max 100" (length q))))))
 
 ;; special key bindings
@@ -117,9 +119,9 @@
 (define-key evil-normal-state-map ",rt" 'run-tests)
 (define-key evil-visual-state-map ",d" 'javadoc-lookup)
 (define-key evil-normal-state-map ",ef" '(lambda ()
-                                           (interactive)
-                                           (save-some-buffers t)
-                                           (slime-compile-and-load-file)))
+					   (interactive)
+					   (save-some-buffers t)
+					   (slime-compile-and-load-file)))
 (define-key evil-normal-state-map ",ci" 'comment-or-uncomment-region)
 (define-key evil-normal-state-map ",q" 'evil-quit)
 (define-key evil-normal-state-map ",t" 'peepopen-goto-file-gui)
@@ -135,6 +137,7 @@
 ;; emulate vim scrolling
 (define-key evil-normal-state-map "\C-u" 'evil-scroll-up)
 (define-key evil-normal-state-map "\C-f" 'evil-scroll-down)
+(define-key evil-normal-state-map "\C-f" 'evil-scroll-down)
 
 ;; pasting Cmd-v / M-v
 (define-key evil-insert-state-map "\M-v" 'yank)
@@ -148,6 +151,33 @@
 (define-key evil-visual-state-map (kbd "SPC") 'ace-jump-mode)
 (define-key evil-visual-state-map (kbd "<S-SPC>") 'ace-jump-char-mode)
 
+
+(defmacro cofi/define-maybe-exit (entry-char exit-char)
+  (let ((name (intern (concat "cofi/maybe-exit-"
+                              (char-to-string entry-char)
+                              (char-to-string exit-char)))))
+    `(progn
+       (define-key evil-insert-state-map (char-to-string ,entry-char) #',name)
+
+       (evil-define-command ,name ()
+         :repeat change
+         (interactive)
+         (let ((modified (buffer-modified-p)))
+           (insert ,entry-char)
+           (let ((evt (read-event (format "Insert %c to exit insert state" ,exit-char)
+                                  nil 0.5)))
+             (cond
+              ((null evt) (message ""))
+              ((and (integerp evt) (char-equal evt ,exit-char))
+               (delete-char -1)
+               (set-buffer-modified-p modified)
+               (push 'escape unread-command-events))
+              (t (setq unread-command-events (append unread-command-events
+                                                     (list evt)))))))))))
+
+(cofi/define-maybe-exit ?j ?j)
+(cofi/define-maybe-exit ?k ?k)
+
 ;;
 ;; buffer management
 ;;
@@ -160,14 +190,14 @@
 (add-hook 'ido-minibuffer-setup-hook 'ido-disable-line-trucation)
 
 (add-hook 'ido-setup-hook
-          (lambda ()
-            (define-key ido-completion-map [down] 'ido-next-match)
-            (define-key ido-completion-map [up] 'ido-prev-match)))
+	  (lambda ()
+	    (define-key ido-completion-map [down] 'ido-next-match)
+	    (define-key ido-completion-map [up] 'ido-prev-match)))
 
 (setq evil-shift-width 2)
 (add-hook 'after-change-major-mode-hook
-          (function (lambda ()
-                      (setq evil-shift-width 2))))
+	  (function (lambda ()
+		      (setq evil-shift-width 2))))
 
 ;; some octave support
 ;;
@@ -207,10 +237,9 @@
 (setq mac-option-key-is-meta nil)
 (setq mac-command-key-is-meta t)
 (setq mac-command-modifier 'meta)
-(setq mac-option-modifier nil)
-
+;(setq mac-option-modifier nil)
 ;; do not make backspace on DEL
-(normal-erase-is-backspace-mode 1)
+;;(normal-erase-is-backspace-mode 1)
 
 ;;
 ;; ack
@@ -241,7 +270,7 @@
 (setq inhibit-splash-screen t)
 
 ;; use inconsolata as default font
-(set-face-attribute 'default nil :font "Inconsolata-16")
+;;(set-face-attribute 'default nil :font "Inconsolata-16")
 
 ;; disable for clojure
 (setq font-lock-verbose nil)
@@ -261,23 +290,23 @@
     (setq my-project-root (textmate-project-root))
     ;; get project files
     (setq project-files
-          (split-string
-           (shell-command-to-string
-            (concat "ack " my-project-root " -f")) "\n"))
+	  (split-string
+	   (shell-command-to-string
+	    (concat "ack " my-project-root " -f")) "\n"))
     ;; populate hash table (display repr => path)
     (setq tbl (make-hash-table :test 'equal))
     (let (ido-list)
       (mapc (lambda (path)
-              ;; format path for display in ido list
-              ;; strip project root
-              (setq key (replace-regexp-in-string (concat my-project-root) "" path))
-              ;; remove trailing | or /
-              ;; (setq key (replace-regexp-in-string "\\(|\\|/\\)$" "" key))
-              (puthash key path tbl)
-              (push key ido-list)
-              )
-            project-files
-            )
+	      ;; format path for display in ido list
+	      ;; strip project root
+	      (setq key (replace-regexp-in-string (concat my-project-root) "" path))
+	      ;; remove trailing | or /
+	      ;; (setq key (replace-regexp-in-string "\\(|\\|/\\)$" "" key))
+	      (puthash key path tbl)
+	      (push key ido-list)
+	      )
+	    project-files
+	    )
       (find-file (gethash (ido-completing-read "project-files: " ido-list) tbl)))))
 
 (define-key evil-normal-state-map ",t" 'my-ido-project-files)
