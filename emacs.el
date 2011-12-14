@@ -310,3 +310,7 @@
       (find-file (gethash (ido-completing-read "project-files: " ido-list) tbl)))))
 
 (define-key evil-normal-state-map ",t" 'my-ido-project-files)
+
+
+
+(cd (getenv "PWD"))

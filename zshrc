@@ -14,6 +14,7 @@ fi
 
 
 alias root="sudo zsh"
+alias e="emacs"
 
 # do not autocorrect at all
 unsetopt correct_all
