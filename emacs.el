@@ -112,6 +112,10 @@
 			    (url-hexify-string q)))
       (message (format "string too long for query: %d chars | max 100" (length q))))))
 
+;; escape sequences for terminal usage
+(define-key input-decode-map "[1;5C" [(control right)])
+(define-key input-decode-map "[1;5D" [(control left)])
+
 ;; special key bindings
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 (global-set-key (kbd "<f6>") 'swank)

@@ -21,3 +21,6 @@ unsetopt correct_all
 
 # do not share histories
 unsetopt SHARE_HISTORY
+
+bindkey '^[1;5C' emacs-forward-word
+bindkey '^[1;5D' emacs-backward-word
