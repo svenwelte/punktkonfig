@@ -19,8 +19,8 @@
 (add-to-list 'exec-path "/opt/local/bin")
 (setenv "PATH" (concat (getenv "PATH") ":/opt/local/bin"))
 
-(vendor 'color-theme)
-(vendor 'color-theme-ir-black)
+;;(vendor 'color-theme)
+
 (vendor 'clojure-mode)
 (vendor 'slime)
 (vendor 'paredit)
@@ -33,7 +33,9 @@
 (vendor 'ace-jump-mode)
 (vendor 'ruby-electric)
 
-
+(add-to-list 'load-path "~/.emacs.d/bundle/color-theme.local")
+(require 'color-theme)
+(vendor 'color-theme-ir-black)
 
 (vendor 'haml-mode)
 (vendor 'sass-mode)
@@ -120,6 +122,7 @@
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 (global-set-key (kbd "<f6>") 'swank)
 (define-key evil-insert-state-map (kbd "<S-tab>") 'ac-complete-slime)
+(define-key evil-insert-state-map (kbd "<C-tab>") 'ac-complete-slime)
 (define-key evil-normal-state-map ",rt" 'run-tests)
 (define-key evil-visual-state-map ",d" 'javadoc-lookup)
 (define-key evil-normal-state-map ",ef" '(lambda ()
