@@ -115,8 +115,8 @@
       (message (format "string too long for query: %d chars | max 100" (length q))))))
 
 ;; escape sequences for terminal usage
-(define-key input-decode-map "[1;5C" [(control right)])
-(define-key input-decode-map "[1;5D" [(control left)])
+;(define-key input-decode-map "[1;5C" [(control right)])
+;(define-key input-decode-map "[1;5D" [(control left)])
 
 ;; special key bindings
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
@@ -244,9 +244,9 @@
 (setq mac-option-key-is-meta nil)
 (setq mac-command-key-is-meta t)
 (setq mac-command-modifier 'meta)
-;(setq mac-option-modifier nil)
+(setq mac-option-modifier nil)
 ;; do not make backspace on DEL
-;;(normal-erase-is-backspace-mode 1)
+(normal-erase-is-backspace-mode 1)
 
 ;;
 ;; ack
