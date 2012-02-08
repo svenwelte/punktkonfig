@@ -27,12 +27,11 @@ Bundle 'nelstrom/vim-textobj-rubyblock'
 Bundle 'edsono/vim-matchit'
 
 Bundle 'godlygeek/tabular'
-Bundle 'wincent/Command-T'
 Bundle 'chrismetcalf/vim-yankring'
 Bundle 'pangloss/vim-javascript'
 Bundle 'vim-scripts/smartword'
 Bundle 'guns/xterm-color-table.vim'
-
+Bundle 'kien/ctrlp.vim'
 Bundle 'larssmit/vim-lucius'
 
 " leader to ,
@@ -72,9 +71,11 @@ imap hh <esc>
 imap jk <esc>
 imap kj <esc>
 
+let g:ctrlp_working_path_mode = 2
+let g:ctrlp_use_caching = 0
 " shortcuts
-nnoremap <silent> <Leader>t  :CommandT <CR>
-nnoremap <silent> <Leader>b  :CommandTBuffer <CR>
+nnoremap <silent> <Leader>t  :CtrlP <CR>
+nnoremap <silent> <Leader>b  :CtrlPBuffer <CR>
 noremap <silent> ,cc :close<CR>
 noremap <silent> ,cw :cclose<CR>
 map <F2> :e ~/.vimrc<CR>
@@ -141,6 +142,7 @@ set gdefault      " always do s/.../.../g
 " wildmenu config
 set wildmenu
 set wildmode=list:longest,full
+let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
 set wildignore+=public/system/**,tmp/**,*.scssc,*.sassc,*.class,log/**,server/**,vendor/bundle/**
 
 " use relative adressing
