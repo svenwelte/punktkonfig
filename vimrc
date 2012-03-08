@@ -33,6 +33,7 @@ Bundle 'vim-scripts/smartword'
 Bundle 'guns/xterm-color-table.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'larssmit/vim-lucius'
+set ttymouse=xterm2
 
 " leader to ,
 let maplocalleader = ","
@@ -153,8 +154,8 @@ set t_Co=256
 " colorscheme wombat256mod
 set background=dark
 colorscheme lucius
-highlight LineNr ctermfg=008
-highlight LineNr ctermbg=233
+
+highlight LineNr term=underline ctermfg=008 ctermbg=233 guifg=bg guibg=#808080
 
 function! g:CodeReview()
   let g:lucius_style="light"
@@ -180,7 +181,6 @@ map <F5> :call TrimWhiteSpace()<CR>
 " rails specific setup
 let g:rails_ctags_arguments='--exclude=*.js --exclude=vendor --exclude=.rsync_cache'
 set autowriteall
-
 " clojure specific setup
 let vimclojure#WantNailgun = 1
 let vimclojure#ParenRainbow = 1
