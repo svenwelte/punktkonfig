@@ -13,9 +13,6 @@
 [submodule "emacs.d/bundle/textmate"]
 	path = emacs.d/bundle/textmate
 	url = https://github.com/defunkt/textmate.el.git
-[submodule "emacs.d/bundle/color-theme-ir-black"]
-	path = emacs.d/bundle/color-theme-ir-black
-	url = https://github.com/burke/color-theme-ir-black.git
 [submodule "emacs.d/bundle/surround"]
 	path = emacs.d/bundle/surround
 	url = https://github.com/timcharper/evil-surround.git
