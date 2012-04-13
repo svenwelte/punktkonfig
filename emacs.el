@@ -19,7 +19,6 @@
 (add-to-list 'exec-path "/opt/local/bin")
 (setenv "PATH" (concat (getenv "PATH") ":/opt/local/bin"))
 
-;;(vendor 'color-theme)
 
 (vendor 'clojure-mode)
 (vendor 'slime)
@@ -32,10 +31,6 @@
 (vendor 'auto-complete)
 (vendor 'ace-jump-mode)
 (vendor 'ruby-electric)
-
-(add-to-list 'load-path "~/.emacs.d/bundle/color-theme.local")
-(require 'color-theme)
-(vendor 'color-theme-ir-black)
 
 (vendor 'haml-mode)
 (vendor 'sass-mode)
@@ -90,6 +85,8 @@
 (evil-mode 1)
 (global-surround-mode 1)
 (ac-config-default)
+(ac-set-trigger-key "TAB")
+(setq ac-auto-start nil)
 
 (setq show-paren-delay 0.2)
 (show-paren-mode t)
@@ -105,6 +102,7 @@
 (global-set-key (kbd "<f5>") 'whitespace-cleanup)
 (define-key global-map (kbd "RET") 'newline-and-indent)
 (setq show-trailing-whitespace t)
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 (defun javadoc-lookup (start end)
   (interactive "r")
@@ -119,10 +117,12 @@
 ;(define-key input-decode-map "[1;5D" [(control left)])
 
 ;; special key bindings
+(global-set-key [(control h)] 'delete-backward-char)
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 (global-set-key (kbd "<f6>") 'swank)
 (define-key evil-insert-state-map (kbd "<S-tab>") 'ac-complete-slime)
 (define-key evil-insert-state-map (kbd "<C-tab>") 'ac-complete-slime)
+(define-key evil-insert-state-map (kbd "<backtab>") 'ac-complete-slime)
 (define-key evil-normal-state-map ",rt" 'run-tests)
 (define-key evil-visual-state-map ",d" 'javadoc-lookup)
 (define-key evil-normal-state-map ",ef" '(lambda ()
@@ -271,7 +271,7 @@
 (menu-bar-mode -1)
 
 ;; enable color theme
-(color-theme-ir-black)
+(load-theme 'wombat)
 
 ;; disable emacs startup screen
 (setq inhibit-splash-screen t)

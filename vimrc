@@ -5,7 +5,7 @@ filetype off
 set rtp+=~/punktkonfig/bundle.vim/vundle/
 call vundle#rc()
 
-" Bootstrap vundle: git clone http://github.com/gmarik/vundle.git " ~/punktkonfig/bundle.vim/vundle
+" Bootstrap vundle: git clone http://github.com/gmarik/vundle.git ~/punktkonfig/bundle.vim/vundle
 Bundle 'gmarik/vundle'
 
 Bundle 'tpope/vim-rails.git'
@@ -34,6 +34,8 @@ Bundle 'guns/xterm-color-table.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'larssmit/vim-lucius'
 set ttymouse=xterm2
+
+Bundle 'vim-scripts/octave.vim'
 
 " leader to ,
 let maplocalleader = ","
@@ -73,7 +75,7 @@ imap jk <esc>
 imap kj <esc>
 
 let g:ctrlp_working_path_mode = 2
-let g:ctrlp_use_caching = 0
+" let g:ctrlp_use_caching = 0
 " shortcuts
 nnoremap <silent> <Leader>t  :CtrlP <CR>
 nnoremap <silent> <Leader>b  :CtrlPBuffer <CR>
@@ -144,7 +146,7 @@ set gdefault      " always do s/.../.../g
 set wildmenu
 set wildmode=list:longest,full
 let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
-set wildignore+=public/system/**,tmp/**,*.scssc,*.sassc,*.class,log/**,server/**,vendor/bundle/**
+set wildignore+=public/system/**,tmp/**,*.scssc,*.sassc,*.class,log/**,server/**,*/vendor/bundle/**,*/.rsync_cache/*,*/server/*
 
 " use relative adressing
 set relativenumber
