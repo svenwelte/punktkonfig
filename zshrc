@@ -33,12 +33,16 @@ source ~/punktkonfig/zsh/cdargs-zsh.sh
 zstyle ':completion:*' menu select
 
 
+alias -r git="LANG=en_US.UTF-8 git"
 alias -r gst="git st"
 alias -r gs="git st"
 alias -r h="history | grep "
 alias -r pd="popd"
 alias -r dirs="dirs -v"
 alias -r l="ls -la"
+alias -r b="bundle exec"
+alias -r br="bundle exec rspec"
+alias -r r="bundle exec rspec"
 
 
 # do not autocorrect at all
@@ -82,3 +86,9 @@ WORDCHARS=${WOARCHARS:s/-=_//}
 
 bindkey -e
 export EDITOR=vim
+
+ptop() {
+  watch -n 1 'psql90 -U postgres -c "SELECT current_query FROM pg_stat_activity"'
+}
+
+source ~/.profile

@@ -1,5 +1,8 @@
 " vim:fenc=utf-8
 
+" Disable Paren Matching for Speed
+let g:loaded_matchparen = 1
+
 filetype off
 
 set rtp+=~/punktkonfig/bundle.vim/vundle/
@@ -15,7 +18,7 @@ Bundle 'tpope/vim-haml'
 Bundle 'tpope/vim-rake'
 
 Bundle 'mileszs/ack.vim'
-Bundle 'scrooloose/syntastic'
+"Bundle 'scrooloose/syntastic'
 
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'gaffneyc/vim-cdargs'
@@ -124,7 +127,7 @@ set expandtab
 set shortmess=at
 
 " display options
-set showmatch  " Show matching brackets.
+"set showmatch  " Show matching brackets.
 set mat=5  " Bracket blinking.
 set list
 set listchars=tab:▸\ ,trail:·,nbsp:·
@@ -157,7 +160,7 @@ set t_Co=256
 set background=dark
 colorscheme lucius
 
-highlight LineNr term=underline ctermfg=008 ctermbg=233 guifg=bg guibg=#808080
+highlight LineNr term=underline ctermfg=008 ctermbg=233 guifg=bg guibg=000
 
 function! g:CodeReview()
   let g:lucius_style="light"

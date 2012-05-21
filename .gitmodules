@@ -37,3 +37,12 @@
 [submodule "emacs.d/bundle/json-mode"]
 	path = emacs.d/bundle/json-mode
 	url = https://github.com/joshwnj/json-mode.git
+[submodule "emacs.d/bundle/dirtree"]
+	path = emacs.d/bundle/dirtree
+	url = https://github.com/zkim/emacs-dirtree.git
+[submodule "emacs.d/bundle/tree-mode"]
+	path = emacs.d/bundle/tree-mode
+	url = https://github.com/emacsmirror/tree-mode.git
+[submodule "emacs.d/bundle/windata"]
+	path = emacs.d/bundle/windata
+	url = https://github.com/emacsmirror/windata.git
