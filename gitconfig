@@ -1,0 +1,27 @@
+[user]
+  name = Sven Welte
+  email = sven.welte@mindmatters.de
+
+[color]
+  ui=auto
+
+[alias]
+  co = checkout
+  st = status
+  ci = commit -a
+  lg = log -p
+  dh = diff HEAD
+  pr = pull --rebase
+  uncommit = reset --soft HEAD^
+
+[core]
+  excludesfile = ~/.gitignore
+
+[push]
+  default = current
+
+[merge]
+  tool = vimdiff
+[mergetool "vimdiff"]
+  cmd = vim -d "$LOCAL" "$MERGED" "$REMOTE"
+  trustExitCode = true
