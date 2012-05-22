@@ -35,7 +35,7 @@ Bundle 'pangloss/vim-javascript'
 Bundle 'vim-scripts/smartword'
 Bundle 'guns/xterm-color-table.vim'
 Bundle 'kien/ctrlp.vim'
-Bundle 'larssmit/vim-lucius'
+Bundle 'vim-scripts/Lucius'
 set ttymouse=xterm2
 
 Bundle 'vim-scripts/octave.vim'
@@ -167,11 +167,6 @@ function! g:CodeReview()
   colorscheme lucius
 :endfunction
 command! CodeReview :call g:CodeReview()
-
-if has('gui_running')
-  set guifont=Inconsolata:h12
-  set guitablabel=%t
-end
 
 " command-t config
 let g:CommandTMatchWindowAtTop=1
