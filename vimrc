@@ -160,7 +160,7 @@ set t_Co=256
 set background=dark
 colorscheme lucius
 
-highlight LineNr term=underline ctermfg=008 ctermbg=233 guifg=bg guibg=000
+highlight LineNr term=underline ctermfg=008 ctermbg=233 guifg=lightgray guibg=black
 
 function! g:CodeReview()
   let g:lucius_style="light"
