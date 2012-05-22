@@ -1,0 +1,12 @@
+tags
+.sass-cache
+.rsync-cache
+*.DS_Store
+*.elc
+*~
+*.orig
+*.rej
+*.swp
+/.bundle
+/.cache
+/.gem
