@@ -15,13 +15,12 @@ Bundle 'tpope/vim-rails.git'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-haml'
-Bundle 'tpope/vim-rake'
+Bundle 'tpope/vim-markdown'
 
 Bundle 'mileszs/ack.vim'
 "Bundle 'scrooloose/syntastic'
 
 Bundle 'vim-ruby/vim-ruby'
-Bundle 'gaffneyc/vim-cdargs'
 Bundle 'scrooloose/nerdcommenter'
 Bundle 'scrooloose/nerdtree'
 
@@ -63,9 +62,6 @@ noremap <silent> <Leader>q :close<CR>
 noremap <silent> <Leader>y :YRShow<CR>
 noremap <silent> <Leader>a :Ack<Space>
 vnoremap <silent> <Leader>a y:Ack "<C-R>*"
-
-" cdargs shortcut
-cnoreabbrev cv Cdb
 
 " reselect just pasted text
 nnoremap <leader>v V`]
