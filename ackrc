@@ -1,0 +1,20 @@
+# General Ack Settings
+--follow
+--smart-case
+
+# Types
+--type-set=css=.sass
+--type-set=clj=.clj
+--type-set=js=.js
+--type-set=rb=.rb,.task,Capfile,Rakefile
+--type-set=html=.haml,.html
+
+# AckIgnore
+--ignore-dir=server/
+--ignore-dir=log/
+--ignore-dir=bundle/
+--ignore-dir=classes/
+--ignore-dir=.rsync_cache
+--ignore-dir=data/
+--ignore-dir=vendor/
+--ignore-dir=tmp/
