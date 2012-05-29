@@ -8,7 +8,7 @@ filetype off
 set rtp+=~/punktkonfig/bundle.vim/vundle/
 call vundle#rc()
 
-" Bootstrap vundle: git clone http://github.com/gmarik/vundle.git ~/punktkonfig/bundle.vim/vundle
+" Bootstrap vundle: git clone http://github.com/gmarik/vundle.git  ~/.vim/bundle
 Bundle 'gmarik/vundle'
 
 Bundle 'tpope/vim-rails.git'
@@ -60,8 +60,14 @@ noremap <silent> <Leader>q :close<CR>
 
 " special mappings
 noremap <silent> <Leader>y :YRShow<CR>
-noremap <silent> <Leader>a :Ack<Space>
-vnoremap <silent> <Leader>a y:Ack "<C-R>*"
+noremap <Leader>a :Ack<Space>
+vnoremap <Leader>a y:Ack <C-R>*
+
+" old surround behaviour
+vmap s S
+
+" command line optimizations
+cmap <C-A> <HOME>
 
 " reselect just pasted text
 nnoremap <leader>v V`]
@@ -78,10 +84,10 @@ let g:ctrlp_working_path_mode = 2
 " shortcuts
 nnoremap <silent> <Leader>t  :CtrlP <CR>
 nnoremap <silent> <Leader>b  :CtrlPBuffer <CR>
-noremap <silent> ,cc :close<CR>
 noremap <silent> ,cw :cclose<CR>
+nnoremap <silent> <C-S-j> :cnext<CR>
+nnoremap <silent> <C-S-k> :cprev<CR>
 map <F2> :e ~/.vimrc<CR>
-map <F3> :Cdb w<cr>:cd src<cr>
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
 
