@@ -11,6 +11,9 @@ call vundle#rc()
 " Bootstrap vundle: git clone http://github.com/gmarik/vundle.git  ~/.vim/bundle
 Bundle 'gmarik/vundle'
 
+Bundle 'Lokaltog/vim-powerline'
+Bundle 'Shougo/unite.vim'
+
 Bundle 'tpope/vim-rails.git'
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-fugitive'
@@ -18,7 +21,7 @@ Bundle 'tpope/vim-haml'
 Bundle 'tpope/vim-markdown'
 
 Bundle 'mileszs/ack.vim'
-"Bundle 'scrooloose/syntastic'
+Bundle 'scrooloose/syntastic'
 
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'scrooloose/nerdcommenter'
@@ -35,6 +38,8 @@ Bundle 'vim-scripts/smartword'
 Bundle 'guns/xterm-color-table.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'vim-scripts/Lucius'
+Bundle 'vim-scripts/bufkill.vim'
+
 set ttymouse=xterm2
 
 Bundle 'vim-scripts/octave.vim'
@@ -62,6 +67,7 @@ noremap <silent> <Leader>q :close<CR>
 noremap <silent> <Leader>y :YRShow<CR>
 noremap <Leader>a :Ack<Space>
 vnoremap <Leader>a y:Ack <C-R>*
+noremap <silent> <Leader>d :BD<CR>
 
 " old surround behaviour
 vmap s S
@@ -79,7 +85,11 @@ imap hh <esc>
 imap jk <esc>
 imap kj <esc>
 
-let g:ctrlp_working_path_mode = 2
+" do not manage directories
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_max_height = 20
+
+
 " let g:ctrlp_use_caching = 0
 " shortcuts
 nnoremap <silent> <Leader>t  :CtrlP <CR>
@@ -181,8 +191,10 @@ function! TrimWhiteSpace()
 map <F5> :call TrimWhiteSpace()<CR>
 
 " rails specific setup
-let g:rails_ctags_arguments='--exclude=*.js --exclude=vendor --exclude=.rsync_cache'
+"let g:rails_ctags_arguments='--exclude=.rsync_cache'
+set tags=TAGS
 set autowriteall
+
 " clojure specific setup
 let vimclojure#WantNailgun = 1
 let vimclojure#ParenRainbow = 1

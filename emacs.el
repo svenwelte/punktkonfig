@@ -117,7 +117,7 @@
 ;(define-key input-decode-map "[1;5D" [(control left)])
 
 ;; special key bindings
-(global-set-key [(control h)] 'delete-backward-char)
+;;(global-set-key [(control h)] 'delete-backward-char)
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 (global-set-key (kbd "<f6>") 'swank)
 (define-key evil-insert-state-map (kbd "<S-tab>") 'ac-complete-slime)
