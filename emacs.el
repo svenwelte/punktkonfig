@@ -28,7 +28,12 @@
 (vendor 'evil)
 (vendor 'surround)
 (vendor 'textmate)
+
+;; Autocomplete
+(vendor 'popup)
+(vendor 'fuzzy)
 (vendor 'auto-complete)
+
 (vendor 'ace-jump-mode)
 (vendor 'ruby-electric)
 
@@ -37,7 +42,6 @@
 (vendor 'json-mode)
 
 (load "~/.emacs.d/vendor/peepopen.el")
-(load "~/.emacs.d/vendor/cdargs.el")
 (load "~/.emacs.d/bundle/clojure-mode/clojure-test-mode.el")
 (load "~/.emacs.d/bundle/auto-complete/auto-complete-config.el")
 
@@ -47,6 +51,7 @@
 (setq js-indent-level 2)
 
 ;; clojure mode related stuff
+(auto-complete-mode t)
 (setq lisp-indent-offset nil)
 (setq slime-protocol-version 'ignore)
 (setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol
@@ -158,6 +163,8 @@
 (define-key evil-visual-state-map (kbd "SPC") 'ace-jump-mode)
 (define-key evil-visual-state-map (kbd "<S-SPC>") 'ace-jump-char-mode)
 
+(evil-define-key 'insert slime-repl-mode-map (kbd "<up>") 'slime-repl-backward-input)
+(evil-define-key 'insert slime-repl-mode-map (kbd "<down>") 'slime-repl-forward-input)
 
 (defmacro cofi/define-maybe-exit (entry-char exit-char)
   (let ((name (intern (concat "cofi/maybe-exit-"
@@ -245,8 +252,6 @@
 (setq mac-command-key-is-meta t)
 (setq mac-command-modifier 'meta)
 (setq mac-option-modifier nil)
-;; do not make backspace on DEL
-(normal-erase-is-backspace-mode 1)
 
 ;;
 ;; ack
@@ -285,10 +290,6 @@
 ;; increase window size (default size is too small)
 (add-to-list 'default-frame-alist '(height . 64))
 (add-to-list 'default-frame-alist '(width . 160))
-
-(defun cv ()
-  (interactive)
-  (cdargs))
 
 (defun my-ido-project-files ()
   "Use ido to select a file from the project."

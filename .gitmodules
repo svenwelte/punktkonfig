@@ -46,3 +46,9 @@
 [submodule "emacs.d/bundle/windata"]
 	path = emacs.d/bundle/windata
 	url = https://github.com/emacsmirror/windata.git
+[submodule "emacs.d/bundle/popup"]
+	path = emacs.d/bundle/popup
+	url = https://github.com/m2ym/popup-el.git
+[submodule "emacs.d/bundle/fuzzy"]
+	path = emacs.d/bundle/fuzzy
+	url = https://github.com/m2ym/fuzzy-el.git
