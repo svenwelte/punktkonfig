@@ -5,14 +5,19 @@ let g:loaded_matchparen = 1
 
 filetype off
 
-set rtp+=~/punktkonfig/bundle.vim/vundle/
+set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
+
+let unite_locate_command = 'mdfind -onlyin . .| sed "s_`pwd`/__g" | agrep -p %s'
+let g:ctrlp_user_command = 'git ls-files %s'
+let g:ctrlp_use_caching = 0
 
 " Bootstrap vundle: git clone http://github.com/gmarik/vundle.git  ~/.vim/bundle
 Bundle 'gmarik/vundle'
 
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'Shougo/unite.vim'
+Bundle 'ujihisa/unite-locate'
 
 Bundle 'tpope/vim-rails.git'
 Bundle 'tpope/vim-surround'
@@ -47,6 +52,7 @@ Bundle 'vim-scripts/octave.vim'
 " leader to ,
 let maplocalleader = ","
 let mapleader = ','
+
 
 set hidden
 
