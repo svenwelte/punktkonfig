@@ -149,7 +149,6 @@
 ;; emulate vim scrolling
 (define-key evil-normal-state-map "\C-u" 'evil-scroll-up)
 (define-key evil-normal-state-map "\C-f" 'evil-scroll-down)
-(define-key evil-normal-state-map "\C-f" 'evil-scroll-down)
 
 ;; pasting Cmd-v / M-v
 (define-key evil-insert-state-map "\M-v" 'yank)
@@ -322,3 +321,14 @@
 
 
 (cd (getenv "PWD"))
+
+(defun yank-to-x-clipboard ()
+  (interactive)
+  (if (region-active-p)
+      (progn
+        (shell-command-on-region (region-beginning) (region-end) "xsel -i")
+        (message "Yanked region to clipboard!")
+        (deactivate-mark))
+    (message "No region active; can't yank to clipboard!")))
+
+(global-set-key [f9] 'yank-to-x-clipboard)
