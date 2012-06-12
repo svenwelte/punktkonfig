@@ -331,4 +331,4 @@
         (deactivate-mark))
     (message "No region active; can't yank to clipboard!")))
 
-(global-set-key [f9] 'yank-to-x-clipboard)
+(global-set-key [f8] 'yank-to-x-clipboard)
