@@ -118,11 +118,25 @@
       (message (format "string too long for query: %d chars | max 100" (length q))))))
 
 ;; escape sequences for terminal usage
-;(define-key input-decode-map "[1;5C" [(control right)])
-;(define-key input-decode-map "[1;5D" [(control left)])
+(define-key input-decode-map "[H" [(home)])
+(define-key input-decode-map "[F" [(end)])
+
+(define-key input-decode-map "[1;5A" [(control up)])
+(define-key input-decode-map "[1;5B" [(control down)])
+(define-key input-decode-map "[1;5C" [(control right)])
+(define-key input-decode-map "[1;5D" [(control left)])
+
+(define-key input-decode-map "[1;3A" [(meta up)])
+(define-key input-decode-map "[1;3B" [(meta down)])
+(define-key input-decode-map "[1;3C" [(meta right)])
+(define-key input-decode-map "[1;3D" [(meta left)])
+
+(define-key input-decode-map "[1;2A" [(shift up)])
+(define-key input-decode-map "[1;2B" [(shift down)])
+(define-key input-decode-map "[1;2C" [(shift right)])
+(define-key input-decode-map "[1;2D" [(shift left)])
 
 ;; special key bindings
-;;(global-set-key [(control h)] 'delete-backward-char)
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 (global-set-key (kbd "<f6>") 'swank)
 (define-key evil-insert-state-map (kbd "<S-tab>") 'ac-complete-slime)

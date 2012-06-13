@@ -56,6 +56,12 @@ let mapleader = ','
 
 set hidden
 
+" escape sequences
+map <Esc>OH <Home>
+map! <Esc>OH <Home>
+map <Esc>OF <End>
+map! <Esc>OF <End>
+
 " smartwords
 map w  <Plug>(smartword-w)
 map b  <Plug>(smartword-b)

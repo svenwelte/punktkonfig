@@ -48,15 +48,22 @@ alias -r r="bundle exec rspec"
 # do not autocorrect at all
 unsetopt correct_all
 
+#
+# HISTORY
+#
+
 # do not share histories
 unsetopt SHARE_HISTORY
 # only append history entries
 setopt INC_APPEND_HISTORY
+setopt hist_ignore_dups
+setopt hist_ignore_space
 HISTSIZE=1000
 SAVEHIST=1000
 HISTFILE=~/.history
 
-# do not beep
+
+# you shall not beep
 setopt NOBEEP
 
 # automatically change into directories
@@ -71,6 +78,11 @@ setopt complete_in_word
 
 bindkey '^[1;5C' emacs-forward-word
 bindkey '^[1;5D' emacs-backward-word
+
+bindkey "\e[H" beginning-of-line # Home
+bindkey "\e[F" end-of-line # End
+bindkey "^[[A" history-beginning-search-backward
+bindkey "^[[B" history-beginning-search-forward
 
 # into X11 clipboard
 x() { echo $1 | xclip -selection c. }
@@ -90,5 +102,16 @@ export EDITOR=vim
 ptop() {
   watch -n 1 'psql90 -U postgres -c "SELECT current_query FROM pg_stat_activity"'
 }
+
+#
+# Temp Dir Stuff
+#
+export TMP="$HOME/tmp"
+export TEMP="$TMP"
+export TMPDIR="$TMP"
+
+if [ ! -d "${TMP}" ]; then mkdir "${TMP}"; fi
+
+
 
 source ~/.profile
