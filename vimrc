@@ -26,7 +26,7 @@ Bundle 'tpope/vim-haml'
 Bundle 'tpope/vim-markdown'
 
 Bundle 'mileszs/ack.vim'
-Bundle 'scrooloose/syntastic'
+" Bundle 'scrooloose/syntastic'
 
 Bundle 'vim-ruby/vim-ruby'
 Bundle 'scrooloose/nerdcommenter'
@@ -44,6 +44,8 @@ Bundle 'guns/xterm-color-table.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'vim-scripts/Lucius'
 Bundle 'vim-scripts/bufkill.vim'
+
+Bundle 'othree/html5.vim'
 
 set ttymouse=xterm2
 
@@ -63,10 +65,10 @@ map <Esc>OF <End>
 map! <Esc>OF <End>
 
 " smartwords
-map w  <Plug>(smartword-w)
-map b  <Plug>(smartword-b)
-map e  <Plug>(smartword-e)
-map ge  <Plug>(smartword-ge)
+"map w  <Plug>(smartword-w)
+"map b  <Plug>(smartword-b)
+"map e  <Plug>(smartword-e)
+"map ge  <Plug>(smartword-ge)
 
 " window mapping
 noremap <silent> <Leader>h :wincmd h<CR>
