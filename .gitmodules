@@ -19,9 +19,6 @@
 [submodule "emacs.d/bundle/slime"]
 	path = emacs.d/bundle/slime
 	url = https://github.com/technomancy/slime.git
-[submodule "emacs.d/bundle/auto-complete"]
-	path = emacs.d/bundle/auto-complete
-	url = https://github.com/auto-complete/auto-complete.git
 [submodule "emacs.d/bundle/ace-jump-mode"]
 	path = emacs.d/bundle/ace-jump-mode
 	url = https://github.com/winterTTr/ace-jump-mode.git
@@ -46,9 +43,3 @@
 [submodule "emacs.d/bundle/windata"]
 	path = emacs.d/bundle/windata
 	url = https://github.com/emacsmirror/windata.git
-[submodule "emacs.d/bundle/popup"]
-	path = emacs.d/bundle/popup
-	url = https://github.com/auto-complete/popup-el.git
-[submodule "emacs.d/bundle/fuzzy"]
-	path = emacs.d/bundle/fuzzy
-	url = https://github.com/auto-complete/fuzzy-el.git
