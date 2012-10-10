@@ -52,3 +52,6 @@
 [submodule "emacs.d/bundle/auto-complete"]
 	path = emacs.d/bundle/auto-complete
 	url = https://github.com/auto-complete/auto-complete.git
+[submodule "emacs.d/bundle/nrepl"]
+	path = emacs.d/bundle/nrepl
+	url = https://github.com/kingtim/nrepl.el.git

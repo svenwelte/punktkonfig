@@ -1,18 +1,18 @@
 (defun vendor (library &rest autoload-functions)
   (let* ((file (symbol-name library))
-	 (normal (concat "~/.emacs.d/bundle/" file))
-	 (suffix (concat normal ".el"))
-	 (personal (concat "~/.emacs.d/custom/" file))
-	 (found nil))
+   (normal (concat "~/.emacs.d/bundle/" file))
+   (suffix (concat normal ".el"))
+   (personal (concat "~/.emacs.d/custom/" file))
+   (found nil))
     (cond
      ((file-directory-p normal) (add-to-list 'load-path normal) (set 'found t))
      ((file-directory-p suffix) (add-to-list 'load-path suffix) (set 'found t))
      ((file-exists-p suffix)  (set 'found t)))
     (when found
       (if autoload-functions
-	  (dolist (autoload-function autoload-functions)
-	    (autoload autoload-function (symbol-name library) nil t))
-	(require library)))
+    (dolist (autoload-function autoload-functions)
+      (autoload autoload-function (symbol-name library) nil t))
+  (require library)))
     (when (file-exists-p (concat personal ".el"))
       (load personal))))
 
@@ -22,6 +22,7 @@
 
 (vendor 'clojure-mode)
 (vendor 'slime)
+(vendor 'nrepl)
 (vendor 'paredit)
 ;(vendor 'full-ack)
 (vendor 'undo-tree)
@@ -42,7 +43,7 @@
 (vendor 'json-mode)
 
 (load "~/.emacs.d/vendor/peepopen.el")
-(load "~/.emacs.d/bundle/clojure-mode/clojure-test-mode.el")
+;;(load "~/.emacs.d/bundle/clojure-mode/clojure-test-mode.el")
 (load "~/.emacs.d/bundle/auto-complete/auto-complete-config.el")
 
 ;; always open in the same window
@@ -61,18 +62,24 @@
       '(slime-repl slime-banner slime-fuzzy))
 
 (add-hook 'clojure-mode-hook
-	  '(lambda ()
-	     (paredit-mode t)
-	     (clojure-test-mode t)))
+    '(lambda ()
+       (paredit-mode t)
+       ;;(clojure-test-mode t)
+       ))
 
 (add-hook 'slime-repl-mode-hook
-	  '(lambda ()
-	     (paredit-mode t)
-	     (clojure-mode-font-lock-setup)))
+    '(lambda ()
+       (paredit-mode t)
+       (evil-local-mode 0)
+       (clojure-mode-font-lock-setup)))
 
 (defun swank ()
   (interactive)
   (slime-connect "127.0.0.1" "4005"))
+
+(defun connect-nrepl ()
+  (interactive)
+  (nrepl "127.0.0.1" "50001"))
 
 (defun run-tests ()
   (interactive)
@@ -98,14 +105,14 @@
 
 ;; some ruby stuff
 (add-hook 'ruby-mode-hook
-	  '(lambda ()
-	     (ruby-electric-mode t)
-	     (local-unset-key "\r")
-	     (local-set-key "\r" 'newline-and-indent) ))
+    '(lambda ()
+       (ruby-electric-mode t)
+       (local-unset-key "\r")
+       (local-set-key "\r" 'newline-and-indent) ))
 
 ;; whitespace police
 (global-set-key (kbd "<f5>") 'whitespace-cleanup)
-(define-key global-map (kbd "RET") 'newline-and-indent)
+;;(define-key global-map (kbd "RET") 'newline-and-indent)
 (setq show-trailing-whitespace t)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
@@ -113,8 +120,8 @@
   (interactive "r")
   (let ((q (buffer-substring-no-properties start end)))
     (if (< (length q) 100)
-	(browse-url (concat "http://www.google.com/search?gfns=1&q=javadoc%20"
-			    (url-hexify-string q)))
+  (browse-url (concat "http://www.google.com/search?gfns=1&q=javadoc%20"
+          (url-hexify-string q)))
       (message (format "string too long for query: %d chars | max 100" (length q))))))
 
 ;; escape sequences for terminal usage
@@ -138,16 +145,18 @@
 
 ;; special key bindings
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
-(global-set-key (kbd "<f6>") 'swank)
+(global-set-key (kbd "<f6>") 'connect-nrepl)
 (define-key evil-insert-state-map (kbd "<S-tab>") 'ac-complete-slime)
 (define-key evil-insert-state-map (kbd "<C-tab>") 'ac-complete-slime)
 (define-key evil-insert-state-map (kbd "<backtab>") 'ac-complete-slime)
 (define-key evil-normal-state-map ",rt" 'run-tests)
 (define-key evil-visual-state-map ",d" 'javadoc-lookup)
 (define-key evil-normal-state-map ",ef" '(lambda ()
-					   (interactive)
-					   (save-some-buffers t)
-					   (slime-compile-and-load-file)))
+             (interactive)
+             (save-some-buffers t)
+             (nrepl-load-current-buffer)
+             ;;(slime-compile-and-load-file)
+             ))
 (define-key evil-normal-state-map ",ci" 'comment-or-uncomment-region)
 (define-key evil-normal-state-map ",q" 'evil-quit)
 (define-key evil-normal-state-map ",t" 'peepopen-goto-file-gui)
@@ -178,6 +187,18 @@
 
 (evil-define-key 'insert slime-repl-mode-map (kbd "<up>") 'slime-repl-backward-input)
 (evil-define-key 'insert slime-repl-mode-map (kbd "<down>") 'slime-repl-forward-input)
+
+(defun my-nrepl-return (&optional end-of-input)
+  (interactive "P")
+  (cond
+   ((nrepl-input-complete-p nrepl-input-start-mark (point-max))
+    ;; FIXED: do not create a newline because of evil-mode problems
+    (nrepl-send-input nil))
+   (t
+    (nrepl-newline-and-indent))))
+
+(evil-define-key 'insert nrepl-mode-map (kbd "RET") 'my-nrepl-return)
+
 
 (defmacro cofi/define-maybe-exit (entry-char exit-char)
   (let ((name (intern (concat "cofi/maybe-exit-"
@@ -217,14 +238,14 @@
 (add-hook 'ido-minibuffer-setup-hook 'ido-disable-line-trucation)
 
 (add-hook 'ido-setup-hook
-	  (lambda ()
-	    (define-key ido-completion-map [down] 'ido-next-match)
-	    (define-key ido-completion-map [up] 'ido-prev-match)))
+    (lambda ()
+      (define-key ido-completion-map [down] 'ido-next-match)
+      (define-key ido-completion-map [up] 'ido-prev-match)))
 
 (setq evil-shift-width 2)
 (add-hook 'after-change-major-mode-hook
-	  (function (lambda ()
-		      (setq evil-shift-width 2))))
+    (function (lambda ()
+          (setq evil-shift-width 2))))
 
 ;; some octave support
 ;;
@@ -311,23 +332,23 @@
     (setq my-project-root (textmate-project-root))
     ;; get project files
     (setq project-files
-	  (split-string
-	   (shell-command-to-string
-	    (concat "ack " my-project-root " -f")) "\n"))
+    (split-string
+     (shell-command-to-string
+      (concat "ack " my-project-root " -f")) "\n"))
     ;; populate hash table (display repr => path)
     (setq tbl (make-hash-table :test 'equal))
     (let (ido-list)
       (mapc (lambda (path)
-	      ;; format path for display in ido list
-	      ;; strip project root
-	      (setq key (replace-regexp-in-string (concat my-project-root) "" path))
-	      ;; remove trailing | or /
-	      ;; (setq key (replace-regexp-in-string "\\(|\\|/\\)$" "" key))
-	      (puthash key path tbl)
-	      (push key ido-list)
-	      )
-	    project-files
-	    )
+        ;; format path for display in ido list
+        ;; strip project root
+        (setq key (replace-regexp-in-string (concat my-project-root) "" path))
+        ;; remove trailing | or /
+        ;; (setq key (replace-regexp-in-string "\\(|\\|/\\)$" "" key))
+        (puthash key path tbl)
+        (push key ido-list)
+        )
+      project-files
+      )
       (find-file (gethash (ido-completing-read "project-files: " ido-list) tbl)))))
 
 (define-key evil-normal-state-map ",t" 'my-ido-project-files)
