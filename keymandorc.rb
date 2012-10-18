@@ -28,9 +28,17 @@ only /Chrome/, /X11/ do
   end
 end
 
+Thread.new do
+  sleep(1800)
+ `nohup killall Keymando && open /Applications/Keymando.app`
+end.run
+
 map "<Cmd-.>" do
   input({
     "reload" => reload_configuration,
+    "restart" => lambda {
+      `nohup killall Keymando && open /Applications/Keymando.app`
+    },
     "gc" => lambda {
       GC.enable
       GC.start

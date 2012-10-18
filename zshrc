@@ -1,4 +1,4 @@
-export PATH=./bin:~/bin:$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin
+export PATH=./bin:~/bin:~/punktkonfig/bin:$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin
 #export TERM="xterm-256color"
 export TERM="screen-256color"
 
@@ -81,8 +81,8 @@ bindkey '^[1;5D' emacs-backward-word
 
 bindkey "\e[H" beginning-of-line # Home
 bindkey "\e[F" end-of-line # End
-bindkey "^[[A" history-beginning-search-backward
-bindkey "^[[B" history-beginning-search-forward
+#bindkey "^[[A" history-beginning-search-backward
+#bindkey "^[[B" history-beginning-search-forward
 
 # into X11 clipboard
 x() { echo $1 | xclip -selection c. }
