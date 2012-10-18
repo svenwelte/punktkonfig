@@ -55,3 +55,6 @@
 [submodule "emacs.d/bundle/nrepl"]
 	path = emacs.d/bundle/nrepl
 	url = https://github.com/kingtim/nrepl.el.git
+[submodule "emacs.d/bundle/ac-nrepl"]
+	path = emacs.d/bundle/ac-nrepl
+	url = https://github.com/purcell/ac-nrepl.git
