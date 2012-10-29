@@ -16,4 +16,12 @@ if [ "$1" = "clj" ]; then
   tmux send-keys -t work:5 "sudo bash" C-m
 fi
 
+if [ "$1" = "java" ]; then
+  tmux send-keys -t work:1 "vim" C-m
+  #tmux send-keys -t work:2 "" C-m
+  tmux send-keys -t work:3 "bundle exec compass watch" C-m
+  tmux send-keys -t work:4 "git status" C-m
+  tmux send-keys -t work:5 "sudo bash" C-m
+fi
+
 tmux -2 -u attach-session -t work
