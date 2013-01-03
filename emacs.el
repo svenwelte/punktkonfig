@@ -1,60 +1,60 @@
-(defun vendor (library &rest autoload-functions)
-  (let* ((file (symbol-name library))
-   (normal (concat "~/.emacs.d/bundle/" file))
-   (suffix (concat normal ".el"))
-   (personal (concat "~/.emacs.d/custom/" file))
-   (found nil))
-    (cond
-     ((file-directory-p normal) (add-to-list 'load-path normal) (set 'found t))
-     ((file-directory-p suffix) (add-to-list 'load-path suffix) (set 'found t))
-     ((file-exists-p suffix)  (set 'found t)))
-    (when found
-      (if autoload-functions
-    (dolist (autoload-function autoload-functions)
-      (autoload autoload-function (symbol-name library) nil t))
-  (require library)))
-    (when (file-exists-p (concat personal ".el"))
-      (load personal))))
+(require 'package)
+(add-to-list 'package-archives
+                          '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(package-initialize)
+
+(when (not package-archive-contents)
+    (package-refresh-contents))
+
+(defvar my-packages
+    '(clojure-mode
+      evil
+      haml-mode
+      magit
+      markdown-mode
+      paredit
+      projectile
+      sass-mode
+      yaml-mode evil
+      auto-complete
+      ac-nrepl
+      textmate
+      peepopen
+      ace-jump-mode
+      rainbow-delimiters
+      nrepl)
+      "A list of packages to ensure are installed at launch.")
+
+(dolist (p my-packages)
+    (when (not (package-installed-p p))
+          (package-install p)))
 
 (add-to-list 'exec-path "/opt/local/bin")
 (setenv "PATH" (concat (getenv "PATH") ":/opt/local/bin"))
 
+(add-to-list 'load-path "~/.emacs.d")
 
-(vendor 'clojure-mode)
-(vendor 'slime)
-(vendor 'nrepl)
-(vendor 'paredit)
-;(vendor 'full-ack)
-(vendor 'undo-tree)
-(vendor 'evil)
-(vendor 'surround)
-(vendor 'textmate)
+(require 'auto-complete)
+(require 'auto-complete-config)
+(require 'ac-nrepl)
+(require 'rainbow-delimiters)
+(require 'surround)
 
-;; Autocomplete
-(vendor 'popup)
-(vendor 'fuzzy)
-(vendor 'auto-complete)
+(evil-mode t)
+(textmate-mode t)
+(global-auto-complete-mode t)
 
-(vendor 'ace-jump-mode)
-(vendor 'ruby-electric)
+(defun startup-nrepl ()
+  (ac-nrepl-setup)
+  (rainbow-delimiters-mode t))
 
-(vendor 'haml-mode)
-(vendor 'sass-mode)
-(vendor 'json-mode)
+(add-hook 'nrepl-mode-hook 'startup-nrepl)
+(add-hook 'nrepl-interaction-mode-hook 'startup-nrepl)
 
-
-(load "~/.emacs.d/vendor/peepopen.el")
-;;(load "~/.emacs.d/bundle/clojure-mode/clojure-test-mode.el")
-(load "~/.emacs.d/bundle/auto-complete/auto-complete-config.el")
-
-;; autocomplete for nrepl
-(vendor 'ac-nrepl)
-(add-hook 'nrepl-mode-hook 'ac-nrepl-setup)
-(add-hook 'nrepl-interaction-mode-hook 'ac-nrepl-setup)
-(add-to-list 'ac-modes 'nrepl-mode)
+;;(add-to-list 'ac-modes 'nrepl-mode)
 (setq nrepl-popup-stacktraces nil)
 
-;;(eval-after-load "auto-complete" '(add-to-list 'ac-modes 'nrepl-mode))
+(eval-after-load "auto-complete" '(add-to-list 'ac-modes 'nrepl-mode))
 
 (defun set-auto-complete-as-completion-at-point-function ()
     (setq completion-at-point-functions '(auto-complete)))
@@ -62,8 +62,9 @@
 
 (add-hook 'nrepl-mode-hook 'set-auto-complete-as-completion-at-point-function)
 (add-hook 'nrepl-interaction-mode-hook 'set-auto-complete-as-completion-at-point-function)
+(add-hook 'nrepl-interaction-mode-hook 'nrepl-turn-on-eldoc-mode)
 
-
+(add-hook 'nrepl-mode-hook 'paredit-mode)
 
 ;; always open in the same window
 (setq ns-pop-up-frames nil)
@@ -71,30 +72,14 @@
 (setq js-indent-level 2)
 
 ;; clojure mode related stuff
-(auto-complete-mode t)
 (setq lisp-indent-offset nil)
-(setq slime-protocol-version 'ignore)
-(setq slime-complete-symbol-function 'slime-fuzzy-complete-symbol
-      slime-net-coding-system 'utf-8-unix)
-
-(slime-setup
-      '(slime-repl slime-banner slime-fuzzy))
 
 (add-hook 'clojure-mode-hook
     '(lambda ()
        (paredit-mode t)
+       (rainbow-delimiters-mode t)
        ;;(clojure-test-mode t)
        ))
-
-(add-hook 'slime-repl-mode-hook
-    '(lambda ()
-       (paredit-mode t)
-       (evil-local-mode 0)
-       (clojure-mode-font-lock-setup)))
-
-(defun swank ()
-  (interactive)
-  (slime-connect "127.0.0.1" "4005"))
 
 (defun connect-nrepl ()
   (interactive)
@@ -112,12 +97,21 @@
 (switch-to-buffer "emacs.el")
 
 ;; enable global modes
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+;;(setq ido-ignore-buffers '("nrepl-connection" "*Messages*"))
 (ido-mode 1)
 (evil-mode 1)
 (global-surround-mode 1)
 (ac-config-default)
 (ac-set-trigger-key "TAB")
 (setq ac-auto-start nil)
+
+(set-default 'ac-quick-help-delay 0.2)
+(set-default 'ac-sources
+             '(ac-source-words-in-buffer
+               ac-source-words-in-same-mode-buffers))
+
 
 (setq show-paren-delay 0.2)
 (show-paren-mode t)
@@ -165,17 +159,35 @@
 ;; special key bindings
 (global-set-key (kbd "C-;") 'comment-or-uncomment-region)
 (global-set-key (kbd "<f6>") 'connect-nrepl)
-(define-key evil-insert-state-map (kbd "<S-tab>") 'ac-complete-slime)
-(define-key evil-insert-state-map (kbd "<C-tab>") 'ac-complete-slime)
-(define-key evil-insert-state-map (kbd "<backtab>") 'ac-complete-slime)
+
+
+(define-key evil-normal-state-map "_" 'nrepl-jump)
+
+(defun clear-error ()
+  (interactive)
+  (kill-buffer "*nREPL error*"))
+
+(define-key evil-normal-state-map "-" 'clear-error)
+
+;;(define-key evil-insert-state-map (kbd "<S-tab>") 'ac-complete-slime)
+;;(define-key evil-insert-state-map (kbd "<C-tab>") 'ac-complete-slime)
+;;(define-key evil-insert-state-map (kbd "<backtab>") 'ac-complete-slime)
 (define-key evil-normal-state-map ",rt" 'run-tests)
 (define-key evil-visual-state-map ",d" 'javadoc-lookup)
-(define-key evil-normal-state-map ",ef" '(lambda ()
-             (interactive)
-             (save-some-buffers t)
-             (nrepl-load-current-buffer)
-             ;;(slime-compile-and-load-file)
-             ))
+
+(defun reload-code ()
+  (interactive)
+  (evil-normal-state)
+  (save-some-buffers t)
+  (nrepl-load-current-buffer))
+
+(global-set-key (kbd "<f9>") 'reload-code)
+
+(define-key evil-normal-state-map ",ef"      'reload-code)
+(define-key evil-normal-state-map ",m"      '(lambda ()
+                                                (interactive)
+                                                (nrepl-switch-to-repl-buffer)))
+
 (define-key evil-normal-state-map ",ci" 'comment-or-uncomment-region)
 (define-key evil-normal-state-map ",q" 'evil-quit)
 (define-key evil-normal-state-map ",t" 'peepopen-goto-file-gui)
@@ -188,6 +200,9 @@
 (define-key evil-normal-state-map ",k" 'evil-window-up)
 (define-key evil-normal-state-map ",j" 'evil-window-down)
 
+(define-key evil-normal-state-map ",." 'nrepl-jump)
+(define-key evil-normal-state-map ",:" 'nrepl-jump-back)
+
 ;; emulate vim scrolling
 (define-key evil-normal-state-map "\C-u" 'evil-scroll-up)
 (define-key evil-normal-state-map "\C-f" 'evil-scroll-down)
@@ -198,14 +213,14 @@
 (define-key evil-insert-state-map "\M-c" 'evil-yank)
 (define-key evil-normal-state-map "\M-c" 'evil-yank)
 
+(define-key evil-normal-state-map "\C-c\C-c" 'nrepl-eval-expression-at-point)
+
 ;; ace jump move bindings
 (define-key evil-normal-state-map (kbd "SPC") 'ace-jump-mode)
 (define-key evil-normal-state-map (kbd "<S-SPC>") 'ace-jump-char-mode)
 (define-key evil-visual-state-map (kbd "SPC") 'ace-jump-mode)
 (define-key evil-visual-state-map (kbd "<S-SPC>") 'ace-jump-char-mode)
 
-(evil-define-key 'insert slime-repl-mode-map (kbd "<up>") 'slime-repl-backward-input)
-(evil-define-key 'insert slime-repl-mode-map (kbd "<down>") 'slime-repl-forward-input)
 
 (defun my-nrepl-return (&optional end-of-input)
   (interactive "P")
@@ -216,7 +231,7 @@
    (t
     (nrepl-newline-and-indent))))
 
-(evil-define-key 'insert nrepl-mode-map (kbd "RET") 'my-nrepl-return)
+;;(evil-define-key 'insert nrepl-mode-map (kbd "RET") 'my-nrepl-return)
 
 
 (defmacro cofi/define-maybe-exit (entry-char exit-char)
@@ -251,7 +266,8 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
 
-(setq ido-enable-flex-matching t)
+(setq ido-enable-flex-matching t
+      ido-max-prospects 25)
 (setq ido-decorations (quote ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")))
 (defun ido-disable-line-trucation () (set (make-local-variable 'truncate-lines) nil))
 (add-hook 'ido-minibuffer-setup-hook 'ido-disable-line-trucation)
