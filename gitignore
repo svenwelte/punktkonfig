@@ -11,3 +11,4 @@ tags
 /.cache
 /.gem
 /data
+/.bundle
