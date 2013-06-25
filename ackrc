@@ -19,3 +19,4 @@
 --ignore-dir=data/
 --ignore-dir=vendor/
 --ignore-dir=tmp/
+--ignore-dir=target/
