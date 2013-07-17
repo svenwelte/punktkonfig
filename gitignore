@@ -13,3 +13,4 @@ tags
 /data
 *.iml
 /.bundle
+/node_modules
