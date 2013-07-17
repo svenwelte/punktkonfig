@@ -125,7 +125,7 @@ set ic             " ignore case for search
 set nocompatible   " We're running Vim, not Vi!
 
 set cf                 " Enable error files & error jumping.
-set clipboard=unnamed  " Yanks go on clipboard instead.
+set clipboard=unnamedplus  " Yanks go on X11-clipboard instead.
 set history=256        " Number of things to remember in history.
 set autowrite          " Writes on make/shell commands
 set autoread           " Read stuff that changed on disk
