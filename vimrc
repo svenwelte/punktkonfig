@@ -9,11 +9,12 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 let unite_locate_command = 'mdfind -onlyin . .| sed "s_`pwd`/__g" | agrep -p %s'
-let g:ctrlp_user_command = 'git ls-files %s'
-let g:ctrlp_use_caching = 0
+let g:ctrlp_user_command = 'ack -f %s'
+let g:ctrlp_use_caching = 1
 
 " Bootstrap vundle: git clone http://github.com/gmarik/vundle.git  ~/.vim/bundle
 Bundle 'gmarik/vundle'
+Bundle 'kchmck/vim-coffee-script'
 
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'Shougo/unite.vim'
@@ -44,6 +45,7 @@ Bundle 'guns/xterm-color-table.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'vim-scripts/Lucius'
 Bundle 'vim-scripts/bufkill.vim'
+Bundle 'Blackrush/vim-gocode'
 
 Bundle 'othree/html5.vim'
 
@@ -178,7 +180,7 @@ let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
 set wildignore+=public/system/**,tmp/**,*.scssc,*.sassc,*.class,log/**,server/**,*/vendor/bundle/**,*/.rsync_cache/*,*/server/*
 
 " use relative adressing
-set relativenumber
+"set relativenumber
 
 " gui stuff
 set t_Co=256
