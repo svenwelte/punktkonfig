@@ -10,6 +10,11 @@ URxvt.scrollBar: false
 URxvt.font: xft:monaco:bold:size=10
 URxvt.searchable-scrollback: CM-s
 
+URxvt.perl-ext-common: macosx-clipboard
+URxvt*keysym.M-c: perl:macosx-clipboard:copy
+URxvt*keysym.M-v: perl:macosx-clipboard:paste
+
+
 ## Dark Background
 ! black
 URxvt.color0  : #2E2E34343636

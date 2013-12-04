@@ -9,8 +9,8 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 let unite_locate_command = 'mdfind -onlyin . .| sed "s_`pwd`/__g" | agrep -p %s'
-let g:ctrlp_user_command = 'git ls-files %s'
-let g:ctrlp_use_caching = 0
+let g:ctrlp_user_command = 'ack -f %s'
+let g:ctrlp_use_caching = 1
 
 " Bootstrap vundle: git clone http://github.com/gmarik/vundle.git  ~/.vim/bundle
 Bundle 'gmarik/vundle'
@@ -125,7 +125,8 @@ set ic             " ignore case for search
 set nocompatible   " We're running Vim, not Vi!
 
 set cf                 " Enable error files & error jumping.
-set clipboard=unnamedplus  " Yanks go on X11-clipboard instead.
+set clipboard=unnamed
+"set clipboard=unnamedplus  " Yanks go on X11-clipboard instead.
 set history=256        " Number of things to remember in history.
 set autowrite          " Writes on make/shell commands
 set autoread           " Read stuff that changed on disk
@@ -158,7 +159,7 @@ set mat=5  " Bracket blinking.
 set list
 set listchars=tab:▸\ ,trail:·,nbsp:·
 " set listchars+=eol:¬
-set cursorline
+"set cursorline
 
 " 'sound' options
 set noerrorbells      " no noise.
@@ -178,7 +179,7 @@ let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
 set wildignore+=public/system/**,tmp/**,*.scssc,*.sassc,*.class,log/**,server/**,*/vendor/bundle/**,*/.rsync_cache/*,*/server/*
 
 " use relative adressing
-set relativenumber
+"set relativenumber
 
 " gui stuff
 set t_Co=256

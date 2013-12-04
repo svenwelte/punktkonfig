@@ -2,5 +2,7 @@ emacs.d/auto-save-list/
 emacs.d/ac-comphist.dat
 emacs.d/swank/
 emacs.d/elpa/
+emacs.d/projectile-bookmarks.eld
 octave-core
 bundle.vim
+

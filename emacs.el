@@ -1,6 +1,6 @@
 (require 'package)
 (add-to-list 'package-archives
-                          '("marmalade" . "http://marmalade-repo.org/packages/") t)
+             '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (package-initialize)
 
 (when (not package-archive-contents)
@@ -9,17 +9,18 @@
 (defvar my-packages
     '(clojure-mode
       evil
+      evil-paredit
       haml-mode
       magit
       markdown-mode
       paredit
       projectile
+      flx
+      flx-ido
       sass-mode
       yaml-mode evil
       auto-complete
       ac-nrepl
-      textmate
-      peepopen
       ace-jump-mode
       rainbow-delimiters
       nrepl)
@@ -40,8 +41,18 @@
 (require 'rainbow-delimiters)
 (require 'surround)
 
+;; teach dired to always use alternate file on return
+(add-hook 'dired-mode-hook 'my-dired-mode-hook)
+(defun my-dired-mode-hook ()
+  (evil-add-hjkl-bindings dired-mode-map 'normal
+    (kbd "RET") 'dired-find-alternate-file)
+  (define-key dired-mode-map (kbd "RET")
+    'dired-find-alternate-file))
+
+(projectile-global-mode t)
+
+(setq evil-auto-indent t)
 (evil-mode t)
-(textmate-mode t)
 (global-auto-complete-mode t)
 
 (defun startup-nrepl ()
@@ -54,7 +65,15 @@
 ;;(add-to-list 'ac-modes 'nrepl-mode)
 (setq nrepl-popup-stacktraces nil)
 
-(eval-after-load "auto-complete" '(add-to-list 'ac-modes 'nrepl-mode))
+(require 'flx-ido)
+(ido-mode 1)
+(ido-everywhere 1)
+(flx-ido-mode 1)
+;; disable ido faces to see flx highlights.
+(setq ido-use-faces nil)
+
+(eval-after-load "auto-complete"
+  '(add-to-list 'ac-modes 'nrepl-mode))
 
 (defun set-auto-complete-as-completion-at-point-function ()
     (setq completion-at-point-functions '(auto-complete)))
@@ -77,9 +96,8 @@
 (add-hook 'clojure-mode-hook
     '(lambda ()
        (paredit-mode t)
-       (rainbow-delimiters-mode t)
-       ;;(clojure-test-mode t)
-       ))
+       (evil-paredit-mode t)
+       (rainbow-delimiters-mode t)))
 
 (defun connect-nrepl ()
   (interactive)
@@ -93,13 +111,9 @@
 ;; always follow symlinks for version controlled files
 (setq vc-follow-symlinks t)
 
-(find-file "~/.emacs")
-(switch-to-buffer "emacs.el")
-
 ;; enable global modes
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
-;;(setq ido-ignore-buffers '("nrepl-connection" "*Messages*"))
 (ido-mode 1)
 (evil-mode 1)
 (global-surround-mode 1)
@@ -112,9 +126,21 @@
              '(ac-source-words-in-buffer
                ac-source-words-in-same-mode-buffers))
 
-
 (setq show-paren-delay 0.2)
 (show-paren-mode t)
+
+;; special completion for *.el
+(defun my-lisp-mode ()
+  (message "Applying custom completions for lisp mode")
+  (setq ac-sources '(ac-source-symbols
+                     ac-source-abbrev
+                     ac-source-functions
+                     ac-source-features
+                     ac-source-variables
+                     ac-source-words-in-same-mode-buffers))
+  (paredit-mode t))
+(add-hook 'emacs-lisp-mode-hook 'my-lisp-mode)
+
 
 ;; some ruby stuff
 (add-hook 'ruby-mode-hook
@@ -125,7 +151,7 @@
 
 ;; whitespace police
 (global-set-key (kbd "<f5>") 'whitespace-cleanup)
-;;(define-key global-map (kbd "RET") 'newline-and-indent)
+
 (setq show-trailing-whitespace t)
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
@@ -169,11 +195,8 @@
 
 (define-key evil-normal-state-map "-" 'clear-error)
 
-;;(define-key evil-insert-state-map (kbd "<S-tab>") 'ac-complete-slime)
-;;(define-key evil-insert-state-map (kbd "<C-tab>") 'ac-complete-slime)
-;;(define-key evil-insert-state-map (kbd "<backtab>") 'ac-complete-slime)
 (define-key evil-normal-state-map ",rt" 'run-tests)
-(define-key evil-visual-state-map ",d" 'javadoc-lookup)
+;(define-key evil-visual-state-map ",d" 'javadoc-lookup)
 
 (defun reload-code ()
   (interactive)
@@ -183,14 +206,12 @@
 
 (global-set-key (kbd "<f9>") 'reload-code)
 
-(define-key evil-normal-state-map ",ef"      'reload-code)
-(define-key evil-normal-state-map ",m"      '(lambda ()
-                                                (interactive)
-                                                (nrepl-switch-to-repl-buffer)))
-
+(define-key evil-normal-state-map ",ef" 'reload-code)
 (define-key evil-normal-state-map ",ci" 'comment-or-uncomment-region)
 (define-key evil-normal-state-map ",q" 'evil-quit)
-(define-key evil-normal-state-map ",t" 'peepopen-goto-file-gui)
+(define-key evil-normal-state-map ",Q" 'kill-this-buffer)
+(define-key evil-normal-state-map ",t" 'projectile-find-file)
+(define-key evil-normal-state-map ",d" 'projectile-find-dir)
 (define-key evil-normal-state-map ",b" 'switch-to-buffer)
 
 
@@ -200,6 +221,9 @@
 (define-key evil-normal-state-map ",k" 'evil-window-up)
 (define-key evil-normal-state-map ",j" 'evil-window-down)
 
+(define-key evil-normal-state-map ",r" 'nrepl-switch-to-relevant-repl-buffer)
+
+(define-key evil-normal-state-map ",=" 'nrepl-set-ns)
 (define-key evil-normal-state-map ",." 'nrepl-jump)
 (define-key evil-normal-state-map ",:" 'nrepl-jump-back)
 
@@ -208,10 +232,10 @@
 (define-key evil-normal-state-map "\C-f" 'evil-scroll-down)
 
 ;; pasting Cmd-v / M-v
+(define-key evil-visual-state-map ",y" 'yank-to-x-clipboard)
+(define-key evil-visual-state-map "\M-c" 'yank-to-x-clipboard)
 (define-key evil-insert-state-map "\M-v" 'yank)
 (define-key evil-normal-state-map "\M-v" 'yank)
-(define-key evil-insert-state-map "\M-c" 'evil-yank)
-(define-key evil-normal-state-map "\M-c" 'evil-yank)
 
 (define-key evil-normal-state-map "\C-c\C-c" 'nrepl-eval-expression-at-point)
 
@@ -221,44 +245,14 @@
 (define-key evil-visual-state-map (kbd "SPC") 'ace-jump-mode)
 (define-key evil-visual-state-map (kbd "<S-SPC>") 'ace-jump-char-mode)
 
+;; exit vim mode on special key combos
+(setq key-chord-two-keys-delay 0.3)
+(key-chord-define evil-insert-state-map "jj" 'evil-normal-state)
+(key-chord-define evil-insert-state-map "jk" 'evil-normal-state)
+(key-chord-define evil-insert-state-map "kj" 'evil-normal-state)
+(key-chord-define evil-insert-state-map "kk" 'evil-normal-state)
+(key-chord-mode 1)
 
-(defun my-nrepl-return (&optional end-of-input)
-  (interactive "P")
-  (cond
-   ((nrepl-input-complete-p nrepl-input-start-mark (point-max))
-    ;; FIXED: do not create a newline because of evil-mode problems
-    (nrepl-send-input nil))
-   (t
-    (nrepl-newline-and-indent))))
-
-;;(evil-define-key 'insert nrepl-mode-map (kbd "RET") 'my-nrepl-return)
-
-
-(defmacro cofi/define-maybe-exit (entry-char exit-char)
-  (let ((name (intern (concat "cofi/maybe-exit-"
-                              (char-to-string entry-char)
-                              (char-to-string exit-char)))))
-    `(progn
-       (define-key evil-insert-state-map (char-to-string ,entry-char) #',name)
-
-       (evil-define-command ,name ()
-         :repeat change
-         (interactive)
-         (let ((modified (buffer-modified-p)))
-           (insert ,entry-char)
-           (let ((evt (read-event (format "Insert %c to exit insert state" ,exit-char)
-                                  nil 0.5)))
-             (cond
-              ((null evt) (message ""))
-              ((and (integerp evt) (char-equal evt ,exit-char))
-               (delete-char -1)
-               (set-buffer-modified-p modified)
-               (push 'escape unread-command-events))
-              (t (setq unread-command-events (append unread-command-events
-                                                     (list evt)))))))))))
-
-(cofi/define-maybe-exit ?j ?j)
-(cofi/define-maybe-exit ?k ?k)
 
 ;;
 ;; buffer management
@@ -266,14 +260,18 @@
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'forward)
 
+;; make ido results vertical
 (setq ido-enable-flex-matching t
       ido-max-prospects 25)
 (setq ido-decorations (quote ("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]" " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")))
-(defun ido-disable-line-trucation () (set (make-local-variable 'truncate-lines) nil))
+(defun ido-disable-line-trucation ()
+  (set (make-local-variable 'truncate-lines) nil))
+
 (add-hook 'ido-minibuffer-setup-hook 'ido-disable-line-trucation)
 
 (add-hook 'ido-setup-hook
     (lambda ()
+      (define-key ido-completion-map (kbd "ESC") 'keyboard-escape-quit)
       (define-key ido-completion-map [down] 'ido-next-match)
       (define-key ido-completion-map [up] 'ido-prev-match)))
 
@@ -281,20 +279,6 @@
 (add-hook 'after-change-major-mode-hook
     (function (lambda ()
           (setq evil-shift-width 2))))
-
-;; some octave support
-;;
-(setq inferior-octave-program "~/bin/octave")
-(setq ;; inferior-octave-program "/opt/local/bin/octave"
-      octave-auto-indent t
-      octave-auto-newline t)
-
-(setq auto-mode-alist
-      (cons '("\\.m$" . octave-mode) auto-mode-alist))
-(add-hook 'octave-mode-hook
-  '(lambda ()
-     (define-key evil-normal-state-local-map ",er" 'octave-send-region)
-     (define-key evil-normal-state-local-map ",cc" 'octave-send-region)))
 
 
 (auto-save-mode 0)
@@ -340,12 +324,11 @@
 ;;
 
 ;; disable decoration
-(toggle-scroll-bar -1)
 (tool-bar-mode -1)
 (menu-bar-mode -1)
 
 ;; enable color theme
-(load-theme 'wombat)
+(load-theme 'soothe t)
 
 ;; disable emacs startup screen
 (setq inhibit-splash-screen t)
@@ -354,7 +337,7 @@
 ;;(set-face-attribute 'default nil :font "Inconsolata-16")
 
 ;; disable for clojure
-(setq font-lock-verbose nil)
+;(setq font-lock-verbose nil)
 
 ;; increase window size (default size is too small)
 (add-to-list 'default-frame-alist '(height . 64))
@@ -386,11 +369,10 @@
       )
       (find-file (gethash (ido-completing-read "project-files: " ido-list) tbl)))))
 
-(define-key evil-normal-state-map ",t" 'my-ido-project-files)
+;(define-key evil-normal-state-map ",t" 'my-ido-project-files)
 
 
 
-(cd (getenv "PWD"))
 
 (defun yank-to-x-clipboard ()
   (interactive)
@@ -438,3 +420,21 @@
     ;; http://shreevatsa.wordpress.com/2006/10/22/emacs-copypaste-and-x/
     ;; http://www.mail-archive.com/help-gnu-emacs@gnu.org/msg03577.html
     ))
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes (quote ("787574e2eb71953390ed2fb65c3831849a195fd32dfdd94b8b623c04c7f753f0" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+(put 'dired-find-alternate-file 'disabled nil)
+
+(find-file "~/.emacs")
+(switch-to-buffer "emacs.el")
+
+(cd (getenv "PWD"))
