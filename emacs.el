@@ -1,6 +1,8 @@
+
 (require 'package)
-(add-to-list 'package-archives
-             '("marmalade" . "http://marmalade-repo.org/packages/") t)
+;(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
+(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
 (package-initialize)
 
 (when (not package-archive-contents)
@@ -23,7 +25,8 @@
       ac-nrepl
       ace-jump-mode
       rainbow-delimiters
-      nrepl)
+      nrepl
+      soothe-theme)
       "A list of packages to ensure are installed at launch.")
 
 (dolist (p my-packages)
