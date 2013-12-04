@@ -12,8 +12,11 @@ let unite_locate_command = 'mdfind -onlyin . .| sed "s_`pwd`/__g" | agrep -p %s'
 let g:ctrlp_user_command = 'ack -f %s'
 let g:ctrlp_use_caching = 1
 
+autocmd Filetype go set makeprg=go\ build
+
 " Bootstrap vundle: git clone http://github.com/gmarik/vundle.git  ~/.vim/bundle
 Bundle 'gmarik/vundle'
+Bundle 'kchmck/vim-coffee-script'
 
 Bundle 'Lokaltog/vim-powerline'
 Bundle 'Shougo/unite.vim'
@@ -24,6 +27,7 @@ Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-haml'
 Bundle 'tpope/vim-markdown'
+Bundle 'scrooloose/syntastic'
 
 Bundle 'mileszs/ack.vim'
 " Bundle 'scrooloose/syntastic'
@@ -44,6 +48,7 @@ Bundle 'guns/xterm-color-table.vim'
 Bundle 'kien/ctrlp.vim'
 Bundle 'vim-scripts/Lucius'
 Bundle 'vim-scripts/bufkill.vim'
+Bundle 'Blackrush/vim-gocode'
 
 Bundle 'othree/html5.vim'
 

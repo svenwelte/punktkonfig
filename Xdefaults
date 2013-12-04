@@ -7,8 +7,16 @@ Xft.hintstyle:  hintslight
 Xft.lcdfilter: lcddefault
 
 URxvt.scrollBar: false
-URxvt.font: xft:monaco:bold:size=10
-URxvt.searchable-scrollback: CM-s
+#URxvt.font: xft:monaco:bold:size=10
+#URxvt.font: xft:Bitstream Vera Sans Mono:pixelsize=15
+URxvt.font: xft:Inconsolata:pixelsize=16
+#URxvt.searchable-scrollback: Mod4-Control-s
+
+URxvt.perl-ext-common: ...,clipboard
+#URxvt.keysym.Mod4-Control-c: perl:clipboard:copy
+#URxvt.keysym.Mod4-Control-v: perl:clipboard:paste
+URxvt.keysym.Mod4-y: perl:clipboard:copy
+URxvt.keysym.Mod4-p: perl:clipboard:paste
 
 URxvt.perl-ext-common: macosx-clipboard
 URxvt*keysym.M-c: perl:macosx-clipboard:copy

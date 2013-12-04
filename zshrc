@@ -112,6 +112,4 @@ export TMPDIR="$TMP"
 
 if [ ! -d "${TMP}" ]; then mkdir "${TMP}"; fi
 
-
-
 source ~/.profile
