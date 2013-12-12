@@ -25,7 +25,8 @@
       ac-nrepl
       ace-jump-mode
       rainbow-delimiters
-      nrepl
+      cider
+      key-chord
       soothe-theme)
       "A list of packages to ensure are installed at launch.")
 
@@ -62,11 +63,11 @@
   (ac-nrepl-setup)
   (rainbow-delimiters-mode t))
 
-(add-hook 'nrepl-mode-hook 'startup-nrepl)
-(add-hook 'nrepl-interaction-mode-hook 'startup-nrepl)
+(add-hook 'cider-mode-hook 'startup-nrepl)
+(add-hook 'cider-interaction-mode-hook 'startup-nrepl)
 
 ;;(add-to-list 'ac-modes 'nrepl-mode)
-(setq nrepl-popup-stacktraces nil)
+(setq cider-popup-stacktraces nil)
 
 (require 'flx-ido)
 (ido-mode 1)
@@ -76,17 +77,17 @@
 (setq ido-use-faces nil)
 
 (eval-after-load "auto-complete"
-  '(add-to-list 'ac-modes 'nrepl-mode))
+  '(add-to-list 'ac-modes 'cider-mode))
 
 (defun set-auto-complete-as-completion-at-point-function ()
     (setq completion-at-point-functions '(auto-complete)))
 (add-hook 'auto-complete-mode-hook 'set-auto-complete-as-completion-at-point-function)
 
-(add-hook 'nrepl-mode-hook 'set-auto-complete-as-completion-at-point-function)
-(add-hook 'nrepl-interaction-mode-hook 'set-auto-complete-as-completion-at-point-function)
-(add-hook 'nrepl-interaction-mode-hook 'nrepl-turn-on-eldoc-mode)
+(add-hook 'cider-mode-hook 'set-auto-complete-as-completion-at-point-function)
+(add-hook 'cider-interaction-mode-hook 'set-auto-complete-as-completion-at-point-function)
+(add-hook 'cider-interaction-mode-hook 'cider-turn-on-eldoc-mode)
 
-(add-hook 'nrepl-mode-hook 'paredit-mode)
+(add-hook 'cider-mode-hook 'paredit-mode)
 
 ;; always open in the same window
 (setq ns-pop-up-frames nil)
@@ -104,7 +105,7 @@
 
 (defun connect-nrepl ()
   (interactive)
-  (nrepl "127.0.0.1" "50001"))
+  (cider "127.0.0.1" "50001"))
 
 (defun run-tests ()
   (interactive)
@@ -190,7 +191,7 @@
 (global-set-key (kbd "<f6>") 'connect-nrepl)
 
 
-(define-key evil-normal-state-map "_" 'nrepl-jump)
+(define-key evil-normal-state-map "_" 'cider-jump)
 
 (defun clear-error ()
   (interactive)
@@ -205,7 +206,7 @@
   (interactive)
   (evil-normal-state)
   (save-some-buffers t)
-  (nrepl-load-current-buffer))
+  (cider-load-current-buffer))
 
 (global-set-key (kbd "<f9>") 'reload-code)
 
@@ -224,11 +225,11 @@
 (define-key evil-normal-state-map ",k" 'evil-window-up)
 (define-key evil-normal-state-map ",j" 'evil-window-down)
 
-(define-key evil-normal-state-map ",r" 'nrepl-switch-to-relevant-repl-buffer)
+(define-key evil-normal-state-map ",r" 'cider-switch-to-relevant-repl-buffer)
 
-(define-key evil-normal-state-map ",=" 'nrepl-set-ns)
-(define-key evil-normal-state-map ",." 'nrepl-jump)
-(define-key evil-normal-state-map ",:" 'nrepl-jump-back)
+(define-key evil-normal-state-map ",=" 'cider-set-ns)
+(define-key evil-normal-state-map ",." 'cider-jump)
+(define-key evil-normal-state-map ",:" 'cider-jump-back)
 
 ;; emulate vim scrolling
 (define-key evil-normal-state-map "\C-u" 'evil-scroll-up)
@@ -240,7 +241,7 @@
 (define-key evil-insert-state-map "\M-v" 'yank)
 (define-key evil-normal-state-map "\M-v" 'yank)
 
-(define-key evil-normal-state-map "\C-c\C-c" 'nrepl-eval-expression-at-point)
+(define-key evil-normal-state-map "\C-c\C-c" 'cider-eval-expression-at-point)
 
 ;; ace jump move bindings
 (define-key evil-normal-state-map (kbd "SPC") 'ace-jump-mode)
@@ -331,7 +332,8 @@
 (menu-bar-mode -1)
 
 ;; enable color theme
-(load-theme 'soothe t)
+;(load-theme 'soothe t)
+(load-theme 'wombat t)
 
 ;; disable emacs startup screen
 (setq inhibit-splash-screen t)
@@ -428,7 +430,17 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-safe-themes (quote ("787574e2eb71953390ed2fb65c3831849a195fd32dfdd94b8b623c04c7f753f0" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default))))
+ '(Linum-format "%7i ")
+ '(ansi-color-names-vector ["#000000" "#B13120" "#719F34" "#CEAE3E" "#7C9FC9" "#7868B5" "#009090" "#F4EAD5"])
+ '(custom-safe-themes (quote ("e80a0a5e1b304eb92c58d0398464cd30ccbc3622425b6ff01eea80e44ea5130e" "787574e2eb71953390ed2fb65c3831849a195fd32dfdd94b8b623c04c7f753f0" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" default)))
+ '(fci-rule-character-color "#202020")
+ '(fci-rule-color "#202020")
+ '(fringe-mode 4 nil (fringe))
+ '(main-line-color1 "#000000")
+ '(main-line-color2 "#000000")
+ '(main-line-separator-style (quote chamfer))
+ '(powerline-color1 "#000000")
+ '(powerline-color2 "#000000"))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
