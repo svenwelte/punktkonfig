@@ -1,4 +1,3 @@
-
 (require 'package)
 ;(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/") t)
 (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/") t)
@@ -17,6 +16,7 @@
       markdown-mode
       paredit
       projectile
+      ack-and-a-half
       flx
       flx-ido
       sass-mode
@@ -58,15 +58,20 @@
 (setq evil-auto-indent t)
 (evil-mode t)
 (global-auto-complete-mode t)
+(require 'evil-org)
 
+(setq cider-repl-shortcut-dispatch-char ?\:)
 (defun startup-nrepl ()
   (ac-nrepl-setup)
   (rainbow-delimiters-mode t))
 
-(add-hook 'cider-mode-hook 'startup-nrepl)
-(add-hook 'cider-interaction-mode-hook 'startup-nrepl)
+;;(add-hook 'cider-mode-hook 'startup-nrepl)
+;;(add-hook 'cider-interaction-mode-hook 'startup-nrepl)
 
-;;(add-to-list 'ac-modes 'nrepl-mode)
+(add-hook 'cider-repl-mode-hook 'ac-nrepl-setup)
+(add-hook 'cider-mode-hook 'ac-nrepl-setup)
+(add-to-list 'ac-modes 'cider-repl-mode)
+
 (setq cider-popup-stacktraces nil)
 
 (require 'flx-ido)
@@ -76,17 +81,17 @@
 ;; disable ido faces to see flx highlights.
 (setq ido-use-faces nil)
 
-(eval-after-load "auto-complete"
-  '(add-to-list 'ac-modes 'cider-mode))
 
 (defun set-auto-complete-as-completion-at-point-function ()
     (setq completion-at-point-functions '(auto-complete)))
 (add-hook 'auto-complete-mode-hook 'set-auto-complete-as-completion-at-point-function)
 
-(add-hook 'cider-mode-hook 'set-auto-complete-as-completion-at-point-function)
-(add-hook 'cider-interaction-mode-hook 'set-auto-complete-as-completion-at-point-function)
-(add-hook 'cider-interaction-mode-hook 'cider-turn-on-eldoc-mode)
+;(add-hook 'cider-mode-hook 'set-auto-complete-as-completion-at-point-function)
+;(add-hook 'cider-interaction-mode-hook 'set-auto-complete-as-completion-at-point-function)
 
+(add-hook 'cider-repl-mode-hook 'set-auto-complete-as-completion-at-point-function)
+(add-hook 'cider-mode-hook 'set-auto-complete-as-completion-at-point-function)
+(add-hook 'cider-interaction-mode-hook 'cider-turn-on-eldoc-mode)
 (add-hook 'cider-mode-hook 'paredit-mode)
 
 ;; always open in the same window
@@ -96,6 +101,7 @@
 
 ;; clojure mode related stuff
 (setq lisp-indent-offset nil)
+;(setq clojure-defun-style-default-indent t)
 
 (add-hook 'clojure-mode-hook
     '(lambda ()
@@ -210,10 +216,15 @@
 
 (global-set-key (kbd "<f9>") 'reload-code)
 
+(evil-ex-define-cmd "cn[ext]" 'next-error)
+(evil-ex-define-cmd "cp[rev]" 'previous-error)
+(define-key evil-normal-state-map ",n" 'next-error)
+
 (define-key evil-normal-state-map ",ef" 'reload-code)
 (define-key evil-normal-state-map ",ci" 'comment-or-uncomment-region)
 (define-key evil-normal-state-map ",q" 'evil-quit)
 (define-key evil-normal-state-map ",Q" 'kill-this-buffer)
+(define-key evil-normal-state-map ",a" 'projectile-ack)
 (define-key evil-normal-state-map ",t" 'projectile-find-file)
 (define-key evil-normal-state-map ",d" 'projectile-find-dir)
 (define-key evil-normal-state-map ",b" 'switch-to-buffer)
@@ -227,7 +238,7 @@
 
 (define-key evil-normal-state-map ",r" 'cider-switch-to-relevant-repl-buffer)
 
-(define-key evil-normal-state-map ",=" 'cider-set-ns)
+(define-key evil-normal-state-map ",=" 'cider-repl-set-ns)
 (define-key evil-normal-state-map ",." 'cider-jump)
 (define-key evil-normal-state-map ",:" 'cider-jump-back)
 
@@ -278,6 +289,10 @@
       (define-key ido-completion-map (kbd "ESC") 'keyboard-escape-quit)
       (define-key ido-completion-map [down] 'ido-next-match)
       (define-key ido-completion-map [up] 'ido-prev-match)))
+
+(add-hook 'org-mode-hook
+  (lambda ()
+    (define-key org-mode-map [tab] 'org-mode-cycle)))
 
 (setq evil-shift-width 2)
 (add-hook 'after-change-major-mode-hook
@@ -332,8 +347,8 @@
 (menu-bar-mode -1)
 
 ;; enable color theme
-;(load-theme 'soothe t)
-(load-theme 'wombat t)
+(load-theme 'soothe t)
+;(load-theme 'wombat t)
 
 ;; disable emacs startup screen
 (setq inhibit-splash-screen t)
