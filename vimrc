@@ -5,8 +5,8 @@ let g:loaded_matchparen = 1
 
 filetype off
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
 let unite_locate_command = 'mdfind -onlyin . .| sed "s_`pwd`/__g" | agrep -p %s'
 let g:ctrlp_user_command = 'ack -f %s'
@@ -14,47 +14,48 @@ let g:ctrlp_use_caching = 1
 
 autocmd Filetype go set makeprg=go\ build
 
-" Bootstrap vundle: git clone http://github.com/gmarik/vundle.git  ~/.vim/bundle
-Bundle 'gmarik/vundle'
-Bundle 'kchmck/vim-coffee-script'
+" Bootstrap vundle:
+" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+"
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'kchmck/vim-coffee-script'
 
-Bundle 'Lokaltog/vim-powerline'
-Bundle 'Shougo/unite.vim'
-Bundle 'ujihisa/unite-locate'
+Plugin 'Lokaltog/vim-powerline'
+Plugin 'Shougo/unite.vim'
+Plugin 'ujihisa/unite-locate'
 
-Bundle 'tpope/vim-rails.git'
-Bundle 'tpope/vim-surround'
-Bundle 'tpope/vim-fugitive'
-Bundle 'tpope/vim-haml'
-Bundle 'tpope/vim-markdown'
-Bundle 'scrooloose/syntastic'
+Plugin 'tpope/vim-rails.git'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-haml'
+Plugin 'tpope/vim-markdown'
+Plugin 'scrooloose/syntastic'
 
-Bundle 'mileszs/ack.vim'
-" Bundle 'scrooloose/syntastic'
+Plugin 'mileszs/ack.vim'
+" Plugin 'scrooloose/syntastic'
 
-Bundle 'vim-ruby/vim-ruby'
-Bundle 'scrooloose/nerdcommenter'
-Bundle 'scrooloose/nerdtree'
+Plugin 'vim-ruby/vim-ruby'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'scrooloose/nerdtree'
 
-Bundle 'kana/vim-textobj-user'
-Bundle 'nelstrom/vim-textobj-rubyblock'
-Bundle 'edsono/vim-matchit'
+Plugin 'kana/vim-textobj-user'
+Plugin 'nelstrom/vim-textobj-rubyblock'
+Plugin 'edsono/vim-matchit'
 
-Bundle 'godlygeek/tabular'
-Bundle 'chrismetcalf/vim-yankring'
-Bundle 'pangloss/vim-javascript'
-Bundle 'vim-scripts/smartword'
-Bundle 'guns/xterm-color-table.vim'
-Bundle 'kien/ctrlp.vim'
-Bundle 'vim-scripts/Lucius'
-Bundle 'vim-scripts/bufkill.vim'
-Bundle 'Blackrush/vim-gocode'
-
-Bundle 'othree/html5.vim'
+Plugin 'godlygeek/tabular'
+Plugin 'chrismetcalf/vim-yankring'
+Plugin 'pangloss/vim-javascript'
+Plugin 'vim-scripts/smartword'
+Plugin 'guns/xterm-color-table.vim'
+Plugin 'kien/ctrlp.vim'
+Plugin 'jonathanfilip/vim-lucius'
+Plugin 'vim-scripts/bufkill.vim'
+Plugin 'Blackrush/vim-gocode'
+Plugin 'othree/html5.vim'
 
 set ttymouse=xterm2
 
-Bundle 'vim-scripts/octave.vim'
+"Plugin 'vim-scripts/octave.vim'
 
 " leader to ,
 let maplocalleader = ","
@@ -190,15 +191,15 @@ set wildignore+=public/system/**,tmp/**,*.scssc,*.sassc,*.class,log/**,server/**
 set t_Co=256
 " colorscheme wombat256mod
 set background=dark
-colorscheme lucius
+"colorscheme lucius
 
 highlight LineNr term=underline ctermfg=008 ctermbg=233 guifg=lightgray guibg=black
 
-function! g:CodeReview()
-  let g:lucius_style="light"
-  colorscheme lucius
-:endfunction
-command! CodeReview :call g:CodeReview()
+"function! g:CodeReview()
+"  let g:lucius_style="light"
+"  colorscheme lucius
+":endfunction
+"command! CodeReview :call g:CodeReview()
 
 " command-t config
 let g:CommandTMatchWindowAtTop=1
