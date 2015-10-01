@@ -16,6 +16,7 @@
 
 [core]
   excludesfile = ~/.gitignore
+	precomposeunicode = true
 
 [push]
   default = current
