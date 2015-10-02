@@ -52,6 +52,7 @@ Plugin 'jonathanfilip/vim-lucius'
 Plugin 'vim-scripts/bufkill.vim'
 Plugin 'Blackrush/vim-gocode'
 Plugin 'othree/html5.vim'
+call vundle#end()
 
 set ttymouse=xterm2
 
@@ -191,15 +192,15 @@ set wildignore+=public/system/**,tmp/**,*.scssc,*.sassc,*.class,log/**,server/**
 set t_Co=256
 " colorscheme wombat256mod
 set background=dark
-"colorscheme lucius
+colorscheme lucius
 
 highlight LineNr term=underline ctermfg=008 ctermbg=233 guifg=lightgray guibg=black
 
-"function! g:CodeReview()
-"  let g:lucius_style="light"
-"  colorscheme lucius
-":endfunction
-"command! CodeReview :call g:CodeReview()
+function! g:CodeReview()
+  let g:lucius_style="light"
+  colorscheme lucius
+:endfunction
+command! CodeReview :call g:CodeReview()
 
 " command-t config
 let g:CommandTMatchWindowAtTop=1
