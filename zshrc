@@ -1,6 +1,6 @@
 export PATH=./bin:~/bin:~/punktkonfig/bin:$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin
 #export TERM="xterm-256color"
-export TERM="screen-256color"
+#export TERM="screen-256color"
 
 autoload -Uz compinit
 compinit
@@ -30,7 +30,10 @@ setopt prompt_subst
 PROMPT='%F{blue}%B%~${vcs_info_msg_0_}%F{blue} %(?/%F{blue}/%F{red})$ %F{reset}%b'
 source ~/punktkonfig/zsh/cdargs-zsh.sh
 
+unsetopt menucomplete
 zstyle ':completion:*' menu select
+zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*==02=01}:${(s.:.)LS_COLORS}")';
+
 
 
 alias -r git="LANG=en_US.UTF-8 git"
@@ -41,6 +44,7 @@ alias -r pd="popd"
 alias -r dirs="dirs -v"
 alias -r l="ls -la"
 alias -r ll="ls -la"
+alias -r sl="ls"
 alias -r b="bundle exec"
 alias -r br="bundle exec rspec"
 alias -r r="bundle exec rspec"
@@ -103,6 +107,7 @@ export EDITOR=vim
 ptop() {
   watch -n 1 'psql90 -U postgres -c "SELECT current_query FROM pg_stat_activity"'
 }
+
 
 #
 # Temp Dir Stuff
