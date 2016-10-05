@@ -18,31 +18,20 @@ autocmd Filetype go set makeprg=go\ build
 " git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 "
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'kchmck/vim-coffee-script'
-
 Plugin 'Lokaltog/vim-powerline'
-Plugin 'Shougo/unite.vim'
-Plugin 'ujihisa/unite-locate'
-
-Plugin 'tpope/vim-rails.git'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-haml'
 Plugin 'tpope/vim-markdown'
 Plugin 'scrooloose/syntastic'
 Plugin 'dfxyz/CandyPaper.vim'
-
 Plugin 'mileszs/ack.vim'
-" Plugin 'scrooloose/syntastic'
-
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
-
 Plugin 'kana/vim-textobj-user'
 Plugin 'nelstrom/vim-textobj-rubyblock'
 Plugin 'edsono/vim-matchit'
-
 Plugin 'godlygeek/tabular'
 Plugin 'chrismetcalf/vim-yankring'
 Plugin 'pangloss/vim-javascript'
@@ -51,7 +40,6 @@ Plugin 'guns/xterm-color-table.vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'jonathanfilip/vim-lucius'
 Plugin 'vim-scripts/bufkill.vim'
-Plugin 'Blackrush/vim-gocode'
 Plugin 'othree/html5.vim'
 call vundle#end()
 
