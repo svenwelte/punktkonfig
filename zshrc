@@ -1,6 +1,4 @@
 export PATH=./bin:~/bin:~/punktkonfig/bin:$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin
-#export TERM="xterm-256color"
-#export TERM="screen-256color"
 
 autoload -Uz compinit
 compinit
@@ -28,13 +26,10 @@ precmd () {
 
 setopt prompt_subst
 PROMPT='%F{blue}%B%~${vcs_info_msg_0_}%F{blue} %(?/%F{blue}/%F{red})$ %F{reset}%b'
-source ~/punktkonfig/zsh/cdargs-zsh.sh
 
 unsetopt menucomplete
 zstyle ':completion:*' menu select
 zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*==02=01}:${(s.:.)LS_COLORS}")';
-
-
 
 alias -r git="LANG=en_US.UTF-8 git"
 alias -r gst="git st"
@@ -42,12 +37,15 @@ alias -r gs="git st"
 alias -r h="history | grep "
 alias -r pd="popd"
 alias -r dirs="dirs -v"
-alias -r l="ls -la"
-alias -r ll="ls -la"
+alias -r l="ls -lah"
+alias -r ll="ls -lah"
 alias -r sl="ls"
 alias -r b="bundle exec"
 alias -r br="bundle exec rspec"
 alias -r r="bundle exec rspec"
+alias -r df="df -h"
+alias -r du="du -h"
+alias -r gradle="./gradlew"
 
 
 # do not autocorrect at all
@@ -119,3 +117,6 @@ export TMPDIR="$TMP"
 if [ ! -d "${TMP}" ]; then mkdir "${TMP}"; fi
 
 source ~/.profile
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm

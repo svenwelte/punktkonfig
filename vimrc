@@ -30,6 +30,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-haml'
 Plugin 'tpope/vim-markdown'
 Plugin 'scrooloose/syntastic'
+Plugin 'dfxyz/CandyPaper.vim'
 
 Plugin 'mileszs/ack.vim'
 " Plugin 'scrooloose/syntastic'
@@ -192,7 +193,7 @@ set wildignore+=public/system/**,tmp/**,*.scssc,*.sassc,*.class,log/**,server/**
 set t_Co=256
 " colorscheme wombat256mod
 set background=dark
-colorscheme lucius
+colorscheme CandyPaper
 
 highlight LineNr term=underline ctermfg=008 ctermbg=233 guifg=lightgray guibg=black
 

@@ -16,3 +16,4 @@ tags
 /node_modules
 .idea/
 classes/
+.editorconfig

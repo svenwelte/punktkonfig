@@ -1,4 +1,10 @@
 #!/bin/sh
+
+if [ -z "$1" ]; then
+  echo "\nusage start_session.sh [session]\n"
+  exit -1
+fi
+
 tmux new-session -d -s $1
 tmux rename-window -t $1:1 'editor'
 tmux new-window -t $1:2 -n 'server'
