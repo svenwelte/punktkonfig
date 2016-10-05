@@ -16,7 +16,7 @@
 
 [core]
   excludesfile = ~/.gitignore
-	precomposeunicode = true
+  precomposeunicode = true
 
 [push]
   default = current
@@ -27,6 +27,6 @@
   cmd = vim -d "$LOCAL" "$MERGED" "$REMOTE"
   trustExitCode = true
 [filter "lfs"]
-	clean = git-lfs clean %f
-	smudge = git-lfs smudge %f
-	required = true
+  clean = git-lfs clean %f
+  smudge = git-lfs smudge %f
+  required = true
