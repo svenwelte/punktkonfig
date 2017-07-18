@@ -41,6 +41,8 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'jonathanfilip/vim-lucius'
 Plugin 'vim-scripts/bufkill.vim'
 Plugin 'othree/html5.vim'
+Plugin 'hashivim/vim-terraform'
+
 call vundle#end()
 
 set ttymouse=xterm2
