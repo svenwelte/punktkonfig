@@ -22,3 +22,5 @@
 --ignore-dir=target/
 --ignore-dir=node_modules/
 --ignore-dir=.idea/
+--ignore-dir=build/
+--ignore-dir=.gradle/
