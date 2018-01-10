@@ -9,7 +9,7 @@
 [alias]
   co = checkout
   st = status
-  ci = commit -a
+  ci = commit -S -a
   lg = log -p
   dh = diff HEAD
   pr = pull --rebase
@@ -31,3 +31,5 @@
   clean = git-lfs clean %f
   smudge = git-lfs smudge %f
   required = true
+[commit]
+	gpgsign = true
