@@ -1,6 +1,7 @@
 [user]
   name = Sven Welte
   email = git@svenwelte.de
+	signingkey = 1ECF8F30C2473E45
 
 [color]
   ui=auto
