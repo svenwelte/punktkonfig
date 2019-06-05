@@ -1,13 +1,34 @@
-## Basic Setup
+## Requirements
+
+### Fedora
+```
+dnf install git tig jq zsh htop lsd ansible nvim vim
+```
+
+## Setup
 
 ```
-for f in ackrc emacs.d gitconfig gitignore gvimrc  pryrc tmux.conf vimrc Xdefaults zsh zshrc
-do
-  ln -s "punktkonfig/$f"  ".$f"
-done
-mkdir -p ~/.vim/bundle
 mkdir -p ~/tmp
 mkdir -p ~/bin
-ln -s punktkonfig/bin/start_session.sh ~/bin/start_session.sh
-git clone http://github.com/gmarik/vundle.git  ~/.vim/bundle/vundle
+mkdir -p ~/.vim/bundle
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+git clone git@github.com:svenwelte/punktkonfig.git ~/punktkonfig
+(cd ~/punktkonfig && stow git && stow vim && stow zsh && stow tmux)
+
 ```
+
+## Install
+```
+# zsh
+chsh --shell /bin/zsh
+exec zsh
+
+# vim
+nvim +PlugInstall +qall
+
+# iterm2 (only osx)
+defaults write com.googlecode.iterm2.plist PrefsCustomFolder -string "~/punktkonfig/iterm2"
+defaults write com.googlecode.iterm2.plist LoadPrefsFromCustomFolder -bool true
+
+```
+
