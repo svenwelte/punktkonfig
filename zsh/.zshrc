@@ -1,20 +1,44 @@
-export PATH=./bin:~/bin:~/punktkonfig/bin:$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/local/bin:/opt/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin:node_modules/.bin
+#zmodload zsh/zprof
+export PATH=./bin:~/bin:~/punktkonfig/bin:$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:node_modules/.bin
 source "$HOME/.zplugin/bin/zplugin.zsh"
 
 autoload -Uz _zplugin
 (( ${+_comps} )) && _comps[zplugin]=_zplugin
 
+zplugin ice wait"0" blockf silent
 zplugin light zsh-users/zsh-completions
+
+zplugin ice wait'0' atload'_zsh_autosuggest_start' silent;
 zplugin light zsh-users/zsh-autosuggestions
-zplugin light zsh-users/zsh-syntax-highlighting
+
+zplugin ice wait"0" atinit"zpcompinit; zpcdreplay" silent
+zplugin light zdharma/fast-syntax-highlighting
+
+#zplugin light superbrothers/zsh-kubectl-prompt
+#zplugin light ahmetb/kubectx
+
+zplugin ice wait"0" silent
 zplugin light zdharma/history-search-multi-word
+
+zplugin ice wait"0" silent
 zplugin light hlissner/zsh-autopair
 
+_fzf_compgen_path() {
+  echo "$1"
+  command fd --type f --hidden --follow --exclude ".git" "$1"
+}
+
+_fzf_compgen_dir() {
+  command fd --type d --hidden --follow --exclude ".git"  "$1"
+}
+
+export FZF_DEFAULT_COMMAND='fd --type f'
+export FZF_CTRL_T_COMMAND='fd --type f'
 zplugin snippet https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh
 zplugin snippet https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh
 
-export NVM_AUTO_USE=true
-export NVM_NO_USE=true
+export NVM_LAZY_LOAD=true
+zplugin ice wait'1' silent;
 zplugin light lukechilds/zsh-nvm
 
 autoload -Uz compinit
@@ -44,11 +68,14 @@ precmd () {
 
 setopt prompt_subst
 PROMPT='%F{blue}%B%~${vcs_info_msg_0_}%F{blue} %(?/%F{blue}/%F{red})$ %F{reset}%b'
+#RPROMPT='%{$fg[magenta]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
 
 unsetopt menucomplete
 zstyle ':completion:*' menu select
 zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*==02=01}:${(s.:.)LS_COLORS}")';
 
+alias -r m="cmatrix -bas"
+alias -r mc="mc --nosubshell"
 alias -r gst="git st"
 alias -r gs="git st"
 alias -r h="history | grep "
@@ -120,3 +147,5 @@ source ~/.profile
 
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+#zprof
