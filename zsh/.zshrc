@@ -87,6 +87,7 @@ alias -r br="bundle exec rspec"
 alias -r r="bundle exec rspec"
 alias -r df="df -h"
 alias -r du="du -h"
+alias -r vim=nvim
 
 
 # do not autocorrect at all
@@ -132,7 +133,7 @@ bindkey "\e[F" end-of-line # End
 WORDCHARS=${WOARCHARS:s/-=_//}
 
 bindkey -e
-export EDITOR=vim
+export EDITOR=nvim
 
 #
 # Temp Dir Stuff
