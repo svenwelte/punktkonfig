@@ -6,6 +6,9 @@ let g:loaded_matchparen = 1
 filetype off
 
 set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=/usr/local/opt/fzf
+
+
 call vundle#begin()
 
 let unite_locate_command = 'mdfind -onlyin . .| sed "s_`pwd`/__g" | agrep -p %s'
@@ -31,21 +34,27 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'scrooloose/nerdtree'
 Plugin 'kana/vim-textobj-user'
 Plugin 'nelstrom/vim-textobj-rubyblock'
-Plugin 'edsono/vim-matchit'
 Plugin 'godlygeek/tabular'
 Plugin 'chrismetcalf/vim-yankring'
 Plugin 'pangloss/vim-javascript'
 Plugin 'vim-scripts/smartword'
 Plugin 'guns/xterm-color-table.vim'
 Plugin 'kien/ctrlp.vim'
-Plugin 'jonathanfilip/vim-lucius'
+"Plugin 'jonathanfilip/vim-lucius'
+Plugin 'fcpg/vim-orbital'
 Plugin 'vim-scripts/bufkill.vim'
+Plugin 'editorconfig/editorconfig-vim'
+Plugin 'junegunn/fzf.vim'
+
+
 Plugin 'othree/html5.vim'
-Plugin 'hashivim/vim-terraform'
+Plugin 'leafgarland/typescript-vim' 
+Plugin 'Quramy/tsuquyomi'
+
 
 call vundle#end()
 
-set ttymouse=xterm2
+"set ttymouse=xterm2
 
 "Plugin 'vim-scripts/octave.vim'
 
@@ -65,7 +74,7 @@ map! <Esc>OF <End>
 " smartwords
 "map w  <Plug>(smartword-w)
 "map b  <Plug>(smartword-b)
-"map e  <Plug>(smartword-e)
+map e  <Plug>(smartword-e)
 "map ge  <Plug>(smartword-ge)
 
 " window mapping
@@ -104,8 +113,8 @@ let g:ctrlp_max_height = 20
 
 " let g:ctrlp_use_caching = 0
 " shortcuts
-nnoremap <silent> <Leader>t  :CtrlP <CR>
-nnoremap <silent> <Leader>b  :CtrlPBuffer <CR>
+nnoremap <silent> <Leader>t  :Files <CR>
+nnoremap <silent> <Leader>b  :Buffers <CR>
 noremap <silent> ,cw :cclose<CR>
 nnoremap <silent> <C-S-j> :cnext<CR>
 nnoremap <silent> <C-S-k> :cprev<CR>
@@ -183,7 +192,8 @@ set wildignore+=public/system/**,tmp/**,*.scssc,*.sassc,*.class,log/**,server/**
 set t_Co=256
 " colorscheme wombat256mod
 set background=dark
-colorscheme CandyPaper
+colorscheme orbital
+"CandyPaper
 
 highlight LineNr term=underline ctermfg=008 ctermbg=233 guifg=lightgray guibg=black
 
@@ -225,3 +235,10 @@ if &diff
   map <leader>2 :diffget BASE<CR>
   map <leader>3 :diffget REMOTE<CR>
 endif
+
+
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+
+let NERDTreeShowHidden=1
