@@ -14,6 +14,7 @@ mkdir -p ~/.vim/bundle
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 git clone git@github.com:svenwelte/punktkonfig.git ~/punktkonfig
 (cd ~/punktkonfig && stow git && stow vim && stow zsh && stow tmux)
+ln -s ~/punktkonfig/git/.gitignore
 
 ```
 
