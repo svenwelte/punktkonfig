@@ -10,7 +10,8 @@ dnf install git tig jq zsh htop lsd ansible nvim vim
 ```
 mkdir -p ~/tmp
 mkdir -p ~/bin
-mkdir -p ~/.vim/bundle
+mkdir -p ~/.vim/autoload
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 git clone git@github.com:svenwelte/punktkonfig.git ~/punktkonfig
 (cd ~/punktkonfig && stow git && stow vim && stow zsh && stow tmux)

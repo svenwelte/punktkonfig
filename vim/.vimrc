@@ -5,11 +5,9 @@ let g:loaded_matchparen = 1
 
 filetype off
 
-set rtp+=~/.vim/bundle/Vundle.vim
 set rtp+=/usr/local/opt/fzf
 
 
-call vundle#begin()
 
 let unite_locate_command = 'mdfind -onlyin . .| sed "s_`pwd`/__g" | agrep -p %s'
 let g:ctrlp_user_command = 'ack -f %s'
@@ -17,46 +15,39 @@ let g:ctrlp_use_caching = 1
 
 autocmd Filetype go set makeprg=go\ build
 
-" Bootstrap vundle:
-" git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-"
-Plugin 'VundleVim/Vundle.vim'
-Plugin 'Lokaltog/vim-powerline'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-haml'
-Plugin 'tpope/vim-markdown'
-Plugin 'scrooloose/syntastic'
-Plugin 'dfxyz/CandyPaper.vim'
-Plugin 'mileszs/ack.vim'
-Plugin 'vim-ruby/vim-ruby'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'scrooloose/nerdtree'
-Plugin 'kana/vim-textobj-user'
-Plugin 'nelstrom/vim-textobj-rubyblock'
-Plugin 'godlygeek/tabular'
-Plugin 'chrismetcalf/vim-yankring'
-Plugin 'pangloss/vim-javascript'
-Plugin 'vim-scripts/smartword'
-Plugin 'guns/xterm-color-table.vim'
-Plugin 'kien/ctrlp.vim'
-"Plugin 'jonathanfilip/vim-lucius'
-Plugin 'fcpg/vim-orbital'
-Plugin 'vim-scripts/bufkill.vim'
-Plugin 'editorconfig/editorconfig-vim'
-Plugin 'junegunn/fzf.vim'
+" Bootstrap plug:
+" curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 
-Plugin 'othree/html5.vim'
-Plugin 'leafgarland/typescript-vim' 
-Plugin 'Quramy/tsuquyomi'
+call plug#begin('~/.vim/plugged')
+Plug 'Lokaltog/vim-powerline'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-haml'
+Plug 'tpope/vim-markdown'
+Plug 'scrooloose/syntastic'
+Plug 'dfxyz/CandyPaper.vim'
+Plug 'mileszs/ack.vim'
+Plug 'vim-ruby/vim-ruby'
+Plug 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdtree'
+Plug 'kana/vim-textobj-user'
+Plug 'nelstrom/vim-textobj-rubyblock'
+Plug 'godlygeek/tabular'
+Plug 'chrismetcalf/vim-yankring'
+Plug 'pangloss/vim-javascript'
+Plug 'vim-scripts/smartword'
+Plug 'guns/xterm-color-table.vim'
+Plug 'kien/ctrlp.vim'
+Plug 'fcpg/vim-orbital'
+Plug 'vim-scripts/bufkill.vim'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'junegunn/fzf.vim'
+Plug 'othree/html5.vim'
+Plug 'leafgarland/typescript-vim' 
+Plug 'Quramy/tsuquyomi'
+call plug#end()
 
-
-call vundle#end()
-
-"set ttymouse=xterm2
-
-"Plugin 'vim-scripts/octave.vim'
 
 " leader to ,
 let maplocalleader = ","
@@ -242,3 +233,4 @@ if executable('ag')
 endif
 
 let NERDTreeShowHidden=1
+
