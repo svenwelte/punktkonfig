@@ -17,6 +17,8 @@ let g:ctrlp_use_caching = 1
 
 
 call plug#begin('~/.vim/plugged')
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'tpope/vim-sensible'
 Plug 'Lokaltog/vim-powerline'
 Plug 'tpope/vim-surround'
@@ -42,7 +44,7 @@ Plug 'vim-scripts/bufkill.vim'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'junegunn/fzf.vim'
 Plug 'othree/html5.vim'
-Plug 'leafgarland/typescript-vim' 
+Plug 'leafgarland/typescript-vim'
 Plug 'Quramy/tsuquyomi'
 call plug#end()
 
@@ -111,13 +113,10 @@ map <F2> :e ~/.vimrc<CR>
 nnoremap <silent> <Space> :nohlsearch<Bar>:echo<CR>
 
 
-" surround for jquery selectors
-let g:surround_36 = "$('.\r')"
-
 " general setup
 filetype plugin indent on  " Automatically detect file types.
-set ic             " ignore case for search
-set nocompatible   " We're running Vim, not Vi!
+set ic                     " ignore case for search
+set nocompatible           " We're running Vim, not Vi!
 
 set cf                 " Enable error files & error jumping.
 set clipboard=unnamed
@@ -170,6 +169,7 @@ set t_Co=256
 " colorscheme wombat256mod
 set background=dark
 colorscheme orbital
+let g:airline_theme='distinguished'
 "CandyPaper
 
 highlight LineNr term=underline ctermfg=008 ctermbg=233 guifg=lightgray guibg=black
