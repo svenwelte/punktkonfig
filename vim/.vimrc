@@ -8,18 +8,16 @@ filetype off
 set rtp+=/usr/local/opt/fzf
 
 
-
 let unite_locate_command = 'mdfind -onlyin . .| sed "s_`pwd`/__g" | agrep -p %s'
 let g:ctrlp_user_command = 'ack -f %s'
 let g:ctrlp_use_caching = 1
-
-autocmd Filetype go set makeprg=go\ build
 
 " Bootstrap plug:
 " curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
 
 call plug#begin('~/.vim/plugged')
+Plug 'tpope/vim-sensible'
 Plug 'Lokaltog/vim-powerline'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
@@ -118,17 +116,13 @@ let g:surround_36 = "$('.\r')"
 
 " general setup
 filetype plugin indent on  " Automatically detect file types.
-syntax enable
 set ic             " ignore case for search
 set nocompatible   " We're running Vim, not Vi!
 
 set cf                 " Enable error files & error jumping.
 set clipboard=unnamed
 "set clipboard=unnamedplus  " Yanks go on X11-clipboard instead.
-set history=256        " Number of things to remember in history.
 set autowrite          " Writes on make/shell commands
-set autoread           " Read stuff that changed on disk
-set ruler              " Ruler on
 set nu                 " Line numbers on
 set wrap               " Line wrapping off
 set timeoutlen=550     " Time to wait after ESC (default causes an annoying delay)
@@ -138,16 +132,11 @@ set directory=~/tmp    " no swapfiles in current dir
 
 " Formatting (some of these are for coding in C and C++)
 set ts=2  " Tabs are 2 spaces
-set bs=2  " Backspace over everything in insert mode
 set shiftwidth=2  " Tabs under smart indent
-set nocp incsearch
 set cinoptions=:1,p0,t0
 set cinwords=if,else,while,do,for,switch,case
-set formatoptions=tcqr
 set cindent
-"set autoindent
 set smartindent
-set smarttab
 set expandtab
 set shortmess=at
 
@@ -156,7 +145,6 @@ set shortmess=at
 set mat=5  " Bracket blinking.
 set list
 set listchars=tab:▸\ ,trail:·,nbsp:·
-" set listchars+=eol:¬
 "set cursorline
 
 " 'sound' options
@@ -165,13 +153,11 @@ set vb                " use visual bell
 set t_vb=
 au GUIEnter * set t_vb= " forcing t_vb
 
-set laststatus=2  " always show status line.
 set hlsearch      " always highlight search results
 
 set gdefault      " always do s/.../.../g
 
 " wildmenu config
-set wildmenu
 set wildmode=list:longest,full
 let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
 set wildignore+=public/system/**,tmp/**,*.scssc,*.sassc,*.class,log/**,server/**,*/vendor/bundle/**,*/.rsync_cache/*,*/server/*
@@ -204,9 +190,6 @@ function! TrimWhiteSpace()
 :endfunction
 map <F5> :call TrimWhiteSpace()<CR>
 
-" rails specific setup
-"let g:rails_ctags_arguments='--exclude=.rsync_cache'
-set tags=TAGS
 set autowriteall
 
 " clojure specific setup
@@ -215,9 +198,6 @@ let vimclojure#ParenRainbow = 1
 let vimclojure#DynamicHighlighting = 1
 let vimclojure#SplitPos = "bottom"
 let vimclojure#SplitSize = "10"
-
-" lisp-words for clojure (should be project local)
-autocmd FileType clojure setlocal lw+=defroutes,deftest,defelem,defhtml,with-group,form-to,fact
 
 
 " diffmode
