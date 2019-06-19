@@ -46,6 +46,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'othree/html5.vim'
 Plug 'leafgarland/typescript-vim'
 Plug 'Quramy/tsuquyomi'
+Plug 'justinmk/vim-sneak'
 call plug#end()
 
 
@@ -192,13 +193,6 @@ map <F5> :call TrimWhiteSpace()<CR>
 
 set autowriteall
 
-" clojure specific setup
-let vimclojure#WantNailgun = 1
-let vimclojure#ParenRainbow = 1
-let vimclojure#DynamicHighlighting = 1
-let vimclojure#SplitPos = "bottom"
-let vimclojure#SplitSize = "10"
-
 
 " diffmode
 if &diff
@@ -207,6 +201,11 @@ if &diff
   map <leader>3 :diffget REMOTE<CR>
 endif
 
+" setup sneak
+map f <Plug>Sneak_s
+map F <Plug>Sneak_S
+let g:sneak#label = 1
+let g:sneak#use_ic_scs = 1
 
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
