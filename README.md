@@ -2,7 +2,7 @@
 
 ### Fedora
 ```
-dnf install git tig jq zsh htop lsd ansible nvim vim
+dnf install git tig jq zsh htop lsd ansible nvim vim fzf fd-find ripgrep
 ```
 
 ## Setup

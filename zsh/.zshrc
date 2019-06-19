@@ -23,16 +23,15 @@ zplugin ice wait"0" silent
 zplugin light hlissner/zsh-autopair
 
 _fzf_compgen_path() {
-  echo "$1"
-  command fd --type f --hidden --follow --exclude ".git" "$1"
+  command rg --type f "$1"
 }
 
 _fzf_compgen_dir() {
   command fd --type d --hidden --follow --exclude ".git"  "$1"
 }
 
-export FZF_DEFAULT_COMMAND='fd --type f'
-export FZF_CTRL_T_COMMAND='fd --type f'
+export FZF_DEFAULT_COMMAND='rg --files'
+export FZF_CTRL_T_COMMAND='rg --files'
 zplugin snippet https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh
 zplugin snippet https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh
 
@@ -87,6 +86,7 @@ alias -r r="bundle exec rspec"
 alias -r df="df -h"
 alias -r du="du -h"
 alias -r vim=nvim
+alias -r ls=lsd
 
 
 # do not autocorrect at all
@@ -147,3 +147,4 @@ source ~/.profile
 
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+

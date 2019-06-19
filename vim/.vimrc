@@ -1,16 +1,6 @@
 " vim:fenc=utf-8
 
-" Disable Paren Matching for Speed
-let g:loaded_matchparen = 1
-
 filetype off
-
-set rtp+=/usr/local/opt/fzf
-
-
-let unite_locate_command = 'mdfind -onlyin . .| sed "s_`pwd`/__g" | agrep -p %s'
-let g:ctrlp_user_command = 'ack -f %s'
-let g:ctrlp_use_caching = 1
 
 " Bootstrap plug:
 " curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -27,7 +17,7 @@ Plug 'tpope/vim-haml'
 Plug 'tpope/vim-markdown'
 Plug 'scrooloose/syntastic'
 Plug 'dfxyz/CandyPaper.vim'
-Plug 'mileszs/ack.vim'
+Plug 'jremmen/vim-ripgrep'
 Plug 'vim-ruby/vim-ruby'
 Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
@@ -38,10 +28,10 @@ Plug 'chrismetcalf/vim-yankring'
 Plug 'pangloss/vim-javascript'
 Plug 'vim-scripts/smartword'
 Plug 'guns/xterm-color-table.vim'
-Plug 'kien/ctrlp.vim'
 Plug 'fcpg/vim-orbital'
 Plug 'vim-scripts/bufkill.vim'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'othree/html5.vim'
 Plug 'leafgarland/typescript-vim'
@@ -78,8 +68,8 @@ noremap <silent> <Leader>q :close<CR>
 
 " special mappings
 noremap <silent> <Leader>y :YRShow<CR>
-noremap <Leader>a :Ack<Space>
-vnoremap <Leader>a y:Ack <C-R>*
+noremap <Leader>g :Rg<Space>
+vnoremap <Leader>g y:Rg <C-R>*
 noremap <silent> <Leader>d :BD<CR>
 
 " old surround behaviour
@@ -98,14 +88,10 @@ imap hh <esc>
 imap jk <esc>
 imap kj <esc>
 
-" do not manage directories
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_max_height = 20
 
-
-" let g:ctrlp_use_caching = 0
 " shortcuts
-nnoremap <silent> <Leader>t  :Files <CR>
+nnoremap <silent> <Leader>f  :GFiles <CR>
+nnoremap <silent> <Leader>F  :Files <CR>
 nnoremap <silent> <Leader>b  :Buffers <CR>
 noremap <silent> ,cw :cclose<CR>
 nnoremap <silent> <C-S-j> :cnext<CR>
@@ -159,8 +145,7 @@ set gdefault      " always do s/.../.../g
 
 " wildmenu config
 set wildmode=list:longest,full
-let g:ctrlp_custom_ignore = '\.git$\|\.hg$\|\.svn$'
-set wildignore+=public/system/**,tmp/**,*.scssc,*.sassc,*.class,log/**,server/**,*/vendor/bundle/**,*/.rsync_cache/*,*/server/*
+set wildignore+=tmp/**,*.scssc,*.sassc,*.class,log/**
 
 " use relative adressing
 "set relativenumber
@@ -207,9 +192,6 @@ map F <Plug>Sneak_S
 let g:sneak#label = 1
 let g:sneak#use_ic_scs = 1
 
-if executable('ag')
-  let g:ackprg = 'ag --vimgrep'
-endif
 
 let NERDTreeShowHidden=1
 
