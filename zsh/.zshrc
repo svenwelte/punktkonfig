@@ -1,4 +1,5 @@
 export PATH=./bin:~/bin:$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:node_modules/.bin
+
 source "$HOME/.zplugin/bin/zplugin.zsh"
 
 autoload -Uz _zplugin
@@ -48,8 +49,8 @@ colors
 
 autoload -Uz vcs_info
 
-zstyle ':vcs_info:*' stagedstr '%F{28}●'
-zstyle ':vcs_info:*' unstagedstr '%F{11}●'
+zstyle ':vcs_info:*' stagedstr "$fg[green]●"
+zstyle ':vcs_info:*' unstagedstr "$fg[yellow]●"
 
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{11}%r'
@@ -62,6 +63,36 @@ precmd () {
     }
 
     vcs_info
+}
+
+
+function zle-keymap-select() {
+  zle reset-prompt
+  zle -R
+}
+
+zle -N zle-keymap-select
+
+function vi-accept-line() {
+  VI_KEYMAP=main
+  zle accept-line
+}
+
+zle -N vi-accept-line
+
+bindkey -v
+bindkey '^?' backward-delete-char
+bindkey '^h' backward-delete-char
+bindkey '^w' backward-kill-word
+bindkey '^r' history-incremental-search-backward
+bindkey '^a' beginning-of-line
+bindkey '^e' end-of-line
+export KEYTIMEOUT=1
+
+function zle-line-init zle-keymap-select {
+    VIM_PROMPT="%{$fg_bold[green]%} [% NORMAL]% %{$reset_color%}"
+    RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/}$EPS1"
+    zle reset-prompt
 }
 
 setopt prompt_subst
@@ -80,9 +111,6 @@ alias -r h="history | grep "
 alias -r pd="popd"
 alias -r dirs="dirs -v"
 alias -r sl="ls"
-alias -r b="bundle exec"
-alias -r br="bundle exec rspec"
-alias -r r="bundle exec rspec"
 alias -r df="df -h"
 alias -r du="du -h"
 alias -r vim=nvim
@@ -96,14 +124,12 @@ unsetopt correct_all
 # HISTORY
 #
 
-# do not share histories
-unsetopt SHARE_HISTORY
 # only append history entries
 setopt INC_APPEND_HISTORY
 setopt hist_ignore_dups
 setopt hist_ignore_space
-HISTSIZE=1000
-SAVEHIST=1000
+HISTSIZE=10000
+SAVEHIST=10000
 HISTFILE=~/.history
 
 
@@ -131,7 +157,6 @@ bindkey "\e[F" end-of-line # End
 # update word boundaries
 WORDCHARS=${WOARCHARS:s/-=_//}
 
-bindkey -e
 export EDITOR=nvim
 
 #
