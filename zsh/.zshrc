@@ -49,8 +49,8 @@ colors
 
 autoload -Uz vcs_info
 
-zstyle ':vcs_info:*' stagedstr "$fg[green]●"
-zstyle ':vcs_info:*' unstagedstr "$fg[yellow]●"
+zstyle ':vcs_info:*' stagedstr "%F{green}●"
+zstyle ':vcs_info:*' unstagedstr "%F{11}●"
 
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{11}%r'
@@ -59,7 +59,7 @@ precmd () {
     if [[ -z $(git ls-files --other --exclude-standard 2> /dev/null) ]] {
         zstyle ':vcs_info:*' formats ' [%F{green}%b%c%u%F{blue}]'
     } else {
-        zstyle ':vcs_info:*' formats ' [%F{green}%b%c%u%F{red}●%F{blue}]'
+        zstyle ':vcs_info:*' formats ' [%F{green}%b%c%u%F{160}●%F{blue}]'
     }
 
     vcs_info
@@ -115,6 +115,7 @@ alias -r df="df -h"
 alias -r du="du -h"
 alias -r vim=nvim
 alias -r ls=lsd
+alias -r r=ranger
 
 
 # do not autocorrect at all
