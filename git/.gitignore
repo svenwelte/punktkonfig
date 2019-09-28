@@ -18,3 +18,4 @@ tags
 classes/
 .editorconfig
 pg_data/
+/.DS_Store
