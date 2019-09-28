@@ -1,5 +1,7 @@
 export PATH=./bin:~/bin:$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:node_modules/.bin
 
+export LC_CTYPE=en_US.UTF-8
+
 source "$HOME/.zplugin/bin/zplugin.zsh"
 
 autoload -Uz _zplugin
@@ -11,7 +13,6 @@ zplugin light zsh-users/zsh-completions
 zplugin ice wait'0' atload'_zsh_autosuggest_start' silent;
 zplugin light zsh-users/zsh-autosuggestions
 
-zplugin ice wait"0" atinit"zpcompinit; zpcdreplay" silent
 zplugin light zdharma/fast-syntax-highlighting
 
 #zplugin light superbrothers/zsh-kubectl-prompt
@@ -22,6 +23,7 @@ zplugin light zdharma/history-search-multi-word
 
 zplugin ice wait"0" silent
 zplugin light hlissner/zsh-autopair
+zplugin ice wait"0" atinit"zpcompinit; zpcdreplay" silent
 
 _fzf_compgen_path() {
   command rg --type f "$1"
@@ -36,30 +38,23 @@ export FZF_CTRL_T_COMMAND='rg --files'
 zplugin snippet https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh
 zplugin snippet https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh
 
-export NVM_LAZY_LOAD=true
-zplugin ice wait'1' silent;
-zplugin light lukechilds/zsh-nvm
-
-autoload -Uz compinit
-compinit
-zplugin cdreplay -q
 
 autoload -U colors
 colors
 
 autoload -Uz vcs_info
 
-zstyle ':vcs_info:*' stagedstr "%F{green}●"
-zstyle ':vcs_info:*' unstagedstr "%F{11}●"
-
 zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{11}%r'
 zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:*' stagedstr "%{$fg[green]%}●%{$reset_color%}"
+zstyle ':vcs_info:*' unstagedstr "%{$fg[yellow]%}●%{$reset_color%}"
+zstyle ':vcs_info:*' branchformat "%{$fg[green]%}%b%{$reset_color%}"
+#zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{11}%r'
 precmd () {
     if [[ -z $(git ls-files --other --exclude-standard 2> /dev/null) ]] {
-        zstyle ':vcs_info:*' formats ' [%F{green}%b%c%u%F{blue}]'
+        zstyle ':vcs_info:*' formats " [%{$fg[green]%}%b%{$reset_color%}%c%u]"
     } else {
-        zstyle ':vcs_info:*' formats ' [%F{green}%b%c%u%F{160}●%F{blue}]'
+        zstyle ':vcs_info:*' formats " [%{$fg[green]%}%b%{$reset_color%}%c%u%{$fg[red]%}●%{$reset_color%}]"
     }
 
     vcs_info
@@ -81,6 +76,7 @@ function vi-accept-line() {
 zle -N vi-accept-line
 
 bindkey -v
+#bindkey -e
 bindkey '^?' backward-delete-char
 bindkey '^h' backward-delete-char
 bindkey '^w' backward-kill-word
@@ -99,24 +95,26 @@ setopt prompt_subst
 PROMPT='%F{blue}%B%~${vcs_info_msg_0_}%F{blue} %(?/%F{blue}/%F{red})$ %F{reset}%b'
 #RPROMPT='%{$fg[magenta]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
 
-unsetopt menucomplete
-zstyle ':completion:*' menu select
-zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*==02=01}:${(s.:.)LS_COLORS}")';
+#unsetopt menucomplete
+#zstyle ':completion:*' menu select
+#zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*==02=01}:${(s.:.)LS_COLORS}")';
 
 alias -r m="cmatrix -bas"
 alias -r mc="mc --nosubshell"
+alias -r r=ranger
 alias -r gst="git st"
 alias -r gs="git st"
 alias -r h="history | grep "
 alias -r pd="popd"
 alias -r dirs="dirs -v"
-alias -r sl="ls"
 alias -r df="df -h"
 alias -r du="du -h"
 alias -r vim=nvim
+alias -r sl="ls"
 alias -r ls=lsd
 alias -r r=ranger
-
+alias -r ll="ls -la"
+alias -r l=ll
 
 # do not autocorrect at all
 unsetopt correct_all
@@ -169,8 +167,16 @@ export TMPDIR="$TMP"
 
 if [ ! -d "${TMP}" ]; then mkdir "${TMP}"; fi
 
+export LC_ALL=en_US.UTF-8
+
 source ~/.profile
 
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
+autoload -Uz compinit
+compinit
+zplugin cdreplay -q
+
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
