@@ -1,29 +1,12 @@
+#typeset -g ZPLG_MOD_DEBUG=1
+
 export PATH=./bin:~/bin:$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:node_modules/.bin
 
 export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
-source "$HOME/.zplugin/bin/zplugin.zsh"
-
-autoload -Uz _zplugin
-(( ${+_comps} )) && _comps[zplugin]=_zplugin
-
-zplugin ice wait"0" blockf silent
-zplugin light zsh-users/zsh-completions
-
-zplugin ice wait'0' atload'_zsh_autosuggest_start' silent;
-zplugin light zsh-users/zsh-autosuggestions
-
-zplugin light zdharma/fast-syntax-highlighting
-
-#zplugin light superbrothers/zsh-kubectl-prompt
-#zplugin light ahmetb/kubectx
-
-zplugin ice wait"0" silent
-zplugin light zdharma/history-search-multi-word
-
-zplugin ice wait"0" silent
-zplugin light hlissner/zsh-autopair
-zplugin ice wait"0" atinit"zpcompinit; zpcdreplay" silent
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 _fzf_compgen_path() {
   command rg --type f "$1"
@@ -35,15 +18,43 @@ _fzf_compgen_dir() {
 
 export FZF_DEFAULT_COMMAND='rg --files'
 export FZF_CTRL_T_COMMAND='rg --files'
-zplugin snippet https://raw.githubusercontent.com/junegunn/fzf/master/shell/completion.zsh
-zplugin snippet https://raw.githubusercontent.com/junegunn/fzf/master/shell/key-bindings.zsh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+module_path+=( "/Users/svenwelte/.zinit/bin/zmodules/Src" )
+zmodload zdharma/zplugin
+
+#
+# Setup zinit
+#
+if [ ! -d "${HOME}/.zinit" ]; then
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
+fi
+source "$HOME/.zinit/bin/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+
+#
+# Load Plugins
+#
+zinit light-mode wait lucid atload'_zsh_autosuggest_start' for \
+  zsh-users/zsh-autosuggestions
+
+zinit light-mode wait lucid for \
+  zsh-users/zsh-completions \
+  zdharma/history-search-multi-word \
+  hlissner/zsh-autopair
+
+zinit light-mode wait lucid atinit'zicompinit; zicdreplay' for \
+  zdharma/fast-syntax-highlighting
+
+#zinit light superbrothers/zsh-kubectl-prompt
+#zinit light ahmetb/kubectx
 
 
-autoload -U colors
+autoload -Uz colors 
 colors
 
 autoload -Uz vcs_info
-
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' enable git
 zstyle ':vcs_info:*' stagedstr "%{$fg[green]%}●%{$reset_color%}"
@@ -95,15 +106,15 @@ setopt prompt_subst
 PROMPT='%F{blue}%B%~${vcs_info_msg_0_}%F{blue} %(?/%F{blue}/%F{red})$ %F{reset}%b'
 #RPROMPT='%{$fg[magenta]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
 
-#unsetopt menucomplete
-#zstyle ':completion:*' menu select
+unsetopt menucomplete
+zstyle ':completion:*' menu select
 #zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*==02=01}:${(s.:.)LS_COLORS}")';
+zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
+
 
 alias -r m="cmatrix -bas"
 alias -r mc="mc --nosubshell"
-alias -r r=ranger
 alias -r gst="git st"
-alias -r gs="git st"
 alias -r h="history | grep "
 alias -r pd="popd"
 alias -r dirs="dirs -v"
@@ -161,22 +172,13 @@ export EDITOR=nvim
 #
 # Temp Dir Stuff
 #
-export TMP="$HOME/tmp"
-export TEMP="$TMP"
-export TMPDIR="$TMP"
+#export TMP="$HOME/tmp"
+#export TEMP="$TMP"
+#export TMPDIR="$TMP"
 
-if [ ! -d "${TMP}" ]; then mkdir "${TMP}"; fi
-
-export LC_ALL=en_US.UTF-8
+if [ ! -d "$HOME/tmp" ]; then mkdir "$HOME/tmp"; fi
 
 source ~/.profile
 
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+eval "$(nodenv init -)"
 
-autoload -Uz compinit
-compinit
-zplugin cdreplay -q
-
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
