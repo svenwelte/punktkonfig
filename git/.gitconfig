@@ -34,5 +34,3 @@
 	gpgsign = true
 [branch]
 	autosetuprebase = always
-[gpg]
-	program = /usr/local/bin/gpg

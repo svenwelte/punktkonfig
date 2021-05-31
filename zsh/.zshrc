@@ -1,12 +1,24 @@
-#typeset -g ZPLG_MOD_DEBUG=1
+### Added by Zinit's installer
+if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+    print -P "%F{33}▓▒░ %F{220}Installing DHARMA Initiative Plugin Manager (zdharma/zinit)…%f"
+    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
+    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
+        print -P "%F{33}▓▒░ %F{34}Installation successful.%f" || \
+        print -P "%F{160}▓▒░ The clone has failed.%f"
+fi
+source "$HOME/.zinit/bin/zinit.zsh"
+autoload -Uz _zinit
+(( ${+_comps} )) && _comps[zinit]=_zinit
+### End of Zinit installer's chunk
+
+
+zinit light denysdovhan/spaceship-prompt
+
 
 export PATH=./bin:~/bin:$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:node_modules/.bin
 
 export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
-
-# export SDKMAN_DIR="$HOME/.sdkman"
-# [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 export ASDF_DIR="$HOME/.asdf"
 [[ -s "$ASDF_DIR/asdf.sh" ]] && source "$ASDF_DIR/asdf.sh"
@@ -23,19 +35,6 @@ _fzf_compgen_dir() {
 export FZF_DEFAULT_COMMAND='rg --files'
 export FZF_CTRL_T_COMMAND='rg --files'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-module_path+=( "/Users/svenwelte/.zinit/bin/zmodules/Src" )
-zmodload zdharma/zplugin
-
-#
-# Setup zinit
-#
-if [ ! -d "${HOME}/.zinit" ]; then
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zinit/master/doc/install.sh)"
-fi
-source "$HOME/.zinit/bin/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
 
 #
 # Load Plugins
@@ -55,33 +54,9 @@ zinit light-mode wait lucid atinit'zicompinit; zicdreplay' for \
 #zinit light ahmetb/kubectx
 
 
-autoload -Uz colors 
+autoload -Uz colors
 colors
 
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:*' enable git
-zstyle ':vcs_info:*' stagedstr "%{$fg[green]%}●%{$reset_color%}"
-zstyle ':vcs_info:*' unstagedstr "%{$fg[yellow]%}●%{$reset_color%}"
-zstyle ':vcs_info:*' branchformat "%{$fg[green]%}%b%{$reset_color%}"
-#zstyle ':vcs_info:(sv[nk]|bzr):*' branchformat '%b%F{1}:%F{11}%r'
-precmd () {
-    if [[ -z $(git ls-files --other --exclude-standard 2> /dev/null) ]] {
-        zstyle ':vcs_info:*' formats " [%{$fg[green]%}%b%{$reset_color%}%c%u]"
-    } else {
-        zstyle ':vcs_info:*' formats " [%{$fg[green]%}%b%{$reset_color%}%c%u%{$fg[red]%}●%{$reset_color%}]"
-    }
-
-    vcs_info
-}
-
-
-function zle-keymap-select() {
-  zle reset-prompt
-  zle -R
-}
-
-zle -N zle-keymap-select
 
 function vi-accept-line() {
   VI_KEYMAP=main
@@ -100,15 +75,6 @@ bindkey '^a' beginning-of-line
 bindkey '^e' end-of-line
 export KEYTIMEOUT=1
 
-function zle-line-init zle-keymap-select {
-    VIM_PROMPT="%{$fg_bold[green]%} [% NORMAL]% %{$reset_color%}"
-    RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/}$EPS1"
-    zle reset-prompt
-}
-
-setopt prompt_subst
-PROMPT='%F{blue}%B%~${vcs_info_msg_0_}%F{blue} %(?/%F{blue}/%F{red})$ %F{reset}%b'
-#RPROMPT='%{$fg[magenta]%}($ZSH_KUBECTL_PROMPT)%{$reset_color%}'
 
 unsetopt menucomplete
 zstyle ':completion:*' menu select
@@ -184,6 +150,4 @@ export EDITOR=nvim
 if [ ! -d "$HOME/tmp" ]; then mkdir "$HOME/tmp"; fi
 
 source ~/.profile
-
-#eval "$(nodenv init -)"
 
