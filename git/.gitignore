@@ -16,6 +16,6 @@ tags
 /node_modules
 .idea/
 classes/
-.editorconfig
 pg_data/
 /.DS_Store
+.env.local

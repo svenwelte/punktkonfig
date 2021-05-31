@@ -5,8 +5,12 @@ export PATH=./bin:~/bin:$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/local/bin:/opt/
 export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+# export SDKMAN_DIR="$HOME/.sdkman"
+# [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+export ASDF_DIR="$HOME/.asdf"
+[[ -s "$ASDF_DIR/asdf.sh" ]] && source "$ASDF_DIR/asdf.sh"
+fpath=(${ASDF_DIR}/completions $fpath)
 
 _fzf_compgen_path() {
   command rg --type f "$1"
@@ -112,6 +116,7 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
 
 
+alias -r awsume=". awsume"
 alias -r m="cmatrix -bas"
 alias -r mc="mc --nosubshell"
 alias -r gst="git st"
@@ -180,5 +185,5 @@ if [ ! -d "$HOME/tmp" ]; then mkdir "$HOME/tmp"; fi
 
 source ~/.profile
 
-eval "$(nodenv init -)"
+#eval "$(nodenv init -)"
 

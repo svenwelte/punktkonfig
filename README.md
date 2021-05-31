@@ -20,7 +20,7 @@ mkdir -p ~/.vim/autoload
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 git clone git@github.com:svenwelte/punktkonfig.git ~/punktkonfig
-(cd ~/punktkonfig && stow git && stow vim && stow zsh && stow tmux)
+(cd ~/punktkonfig && stow vim && stow zsh && stow tmux)
 ln -s ~/punktkonfig/git/.gitignore
 
 ```
