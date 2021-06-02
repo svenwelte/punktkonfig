@@ -19,3 +19,4 @@ classes/
 pg_data/
 /.DS_Store
 .env.local
+.envrc

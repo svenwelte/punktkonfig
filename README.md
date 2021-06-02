@@ -7,7 +7,7 @@ dnf install git tig jq zsh htop lsd ansible nvim fzf fd-find ripgrep ranger
 
 ### homebrew
 ```
-brew install git tig jq zsh htop lsd ansible nvim fzf fd ripgrep ranger reattach-to-user-namespace
+brew install zoxide git-delta git tig jq zsh htop lsd ansible nvim fzf fd ripgrep ranger reattach-to-user-namespace
 ```
 
 ### Pacman

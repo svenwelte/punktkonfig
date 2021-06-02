@@ -11,9 +11,8 @@ autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
 ### End of Zinit installer's chunk
 
-
-zinit light denysdovhan/spaceship-prompt
-
+eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
 
 export PATH=./bin:~/bin:$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:node_modules/.bin
 
@@ -23,6 +22,8 @@ export LC_ALL=en_US.UTF-8
 export ASDF_DIR="$HOME/.asdf"
 [[ -s "$ASDF_DIR/asdf.sh" ]] && source "$ASDF_DIR/asdf.sh"
 fpath=(${ASDF_DIR}/completions $fpath)
+
+eval "$(asdf exec direnv hook zsh)"
 
 _fzf_compgen_path() {
   command rg --type f "$1"
@@ -42,21 +43,16 @@ export FZF_CTRL_T_COMMAND='rg --files'
 zinit light-mode wait lucid atload'_zsh_autosuggest_start' for \
   zsh-users/zsh-autosuggestions
 
+zinit light-mode wait lucid atinit'zicompinit; zicdreplay' for \
+  zdharma/fast-syntax-highlighting
+
 zinit light-mode wait lucid for \
   zsh-users/zsh-completions \
   zdharma/history-search-multi-word \
   hlissner/zsh-autopair
 
-zinit light-mode wait lucid atinit'zicompinit; zicdreplay' for \
-  zdharma/fast-syntax-highlighting
-
-#zinit light superbrothers/zsh-kubectl-prompt
-#zinit light ahmetb/kubectx
-
-
 autoload -Uz colors
 colors
-
 
 function vi-accept-line() {
   VI_KEYMAP=main
@@ -76,10 +72,17 @@ bindkey '^e' end-of-line
 export KEYTIMEOUT=1
 
 
-unsetopt menucomplete
+# unsetopt menucomplete
 zstyle ':completion:*' menu select
-#zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)(?)*==02=01}:${(s.:.)LS_COLORS}")';
 zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
+zstyle ':completion:*' format 'Completing: %d'
+zstyle ':completion:*' format '%B---- %d%b'
+zstyle ':completion:*:descriptions' format $'%{\e[0;31m%}completing %B%d%b%{\e[0m%}'
+zstyle ':completion:*:messages' format '%B%U---- %d%u%b'
+zstyle ':completion:*:warnings' format "%B$fg[red]%}---- no match for: $fg[white]%d%b"
+zstyle ':completion:*' group-name ''
+zstyle ':completion:::::' completer _complete _approximate
+zstyle ':completion:*:approximate:*' max-errors 2
 
 
 alias -r awsume=". awsume"
@@ -138,14 +141,7 @@ bindkey "\e[F" end-of-line # End
 # update word boundaries
 WORDCHARS=${WOARCHARS:s/-=_//}
 
-export EDITOR=nvim
-
-#
-# Temp Dir Stuff
-#
-#export TMP="$HOME/tmp"
-#export TEMP="$TMP"
-#export TMPDIR="$TMP"
+export EDITOR=vim
 
 if [ ! -d "$HOME/tmp" ]; then mkdir "$HOME/tmp"; fi
 
