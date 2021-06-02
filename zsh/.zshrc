@@ -143,7 +143,5 @@ WORDCHARS=${WOARCHARS:s/-=_//}
 
 export EDITOR=vim
 
-if [ ! -d "$HOME/tmp" ]; then mkdir "$HOME/tmp"; fi
-
 source ~/.profile
 

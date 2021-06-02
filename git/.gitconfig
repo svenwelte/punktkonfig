@@ -19,7 +19,7 @@
   precomposeunicode = true
 
 [push]
-	default = tracking
+  default = tracking
 
 [merge]
   tool = vimdiff
@@ -31,6 +31,6 @@
   smudge = git-lfs smudge %f
   required = true
 [commit]
-	gpgsign = true
+  gpgsign = true
 [branch]
-	autosetuprebase = always
+  autosetuprebase = always
