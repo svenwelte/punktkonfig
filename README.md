@@ -18,8 +18,9 @@ pacman -S git tig jq zsh htop lsd ansible neovim fzf fd ripgrep ranger
 ## Setup
 
 ```
-punktkonfig/setup.sh
-exec zsh
+curl -s https://raw.githubusercontent.com/svenwelte/punktkonfig/master/setup.sh | bash /dev/stdin
+tmux
+zsh
 punktkonfig/install.sh
 ```
 
