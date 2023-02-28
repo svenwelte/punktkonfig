@@ -1,20 +1,24 @@
-### Added by Zinit's installer
-if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing DHARMA Initiative Plugin Manager (zdharma/zinit)…%f"
-    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
-        print -P "%F{33}▓▒░ %F{34}Installation successful.%f" || \
-        print -P "%F{160}▓▒░ The clone has failed.%f"
-fi
-source "$HOME/.zinit/bin/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-### End of Zinit installer's chunk
+source ~/.zsh/zsh-snap/znap.zsh
+source ~/.zprofile
 
-eval "$(starship init zsh)"
-eval "$(zoxide init zsh)"
+znap eval starship 'starship init zsh --print-full-init'
+znap prompt
 
-export PATH=./bin:~/bin:$HOME/.rbenv/bin:$HOME/.rbenv/shims:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin:node_modules/.bin
+#znap source marlonrichert/zsh-autocomplete
+ZSH_AUTOSUGGEST_STRATEGY=( history )
+znap source zsh-users/zsh-autosuggestions
+
+znap source zsh-users/zsh-syntax-highlighting
+znap source hlissner/zsh-autopair
+znap source zsh-users/zsh-history-substring-search
+znap source joshskidmore/zsh-fzf-history-search
+
+
+zmodload zsh/complist
+
+# eval "$(starship init zsh)"
+# eval "$(zoxide init zsh)"
+export PATH="$PATH:./bin:~/bin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:node_modules/.bin"
 
 export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
@@ -25,41 +29,17 @@ fpath=(${ASDF_DIR}/completions $fpath)
 
 eval "$(asdf exec direnv hook zsh)"
 
-_fzf_compgen_path() {
-  command rg --type f "$1"
-}
-
-_fzf_compgen_dir() {
-  command fd --type d --hidden --follow --exclude ".git"  "$1"
-}
-
-export FZF_DEFAULT_COMMAND='rg --files'
-export FZF_CTRL_T_COMMAND='rg --files'
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
+#_fzf_compgen_path() {
+#  command rg --type f "$1"
+#}
 #
-# Load Plugins
-#
-zinit light-mode wait lucid atload'_zsh_autosuggest_start' for \
-  zsh-users/zsh-autosuggestions
+#_fzf_compgen_dir() {
+#  command fd --type d --hidden --follow --exclude ".git"  "$1"
+#}
 
-zinit light-mode wait lucid atinit'zicompinit; zicdreplay' for \
-  zdharma/fast-syntax-highlighting
-
-zinit light-mode wait lucid for \
-  zsh-users/zsh-completions \
-  zdharma/history-search-multi-word \
-  hlissner/zsh-autopair
-
-autoload -Uz colors
-colors
-
-function vi-accept-line() {
-  VI_KEYMAP=main
-  zle accept-line
-}
-
-zle -N vi-accept-line
+#export FZF_DEFAULT_COMMAND='rg --files'
+#export FZF_CTRL_T_COMMAND='rg --files'
+#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 bindkey -v
 #bindkey -e
@@ -71,19 +51,24 @@ bindkey '^a' beginning-of-line
 bindkey '^e' end-of-line
 export KEYTIMEOUT=1
 
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
 
-# unsetopt menucomplete
-zstyle ':completion:*' menu select
-zstyle ':completion:*' list-colors "${(@s.:.)LS_COLORS}"
-zstyle ':completion:*' format 'Completing: %d'
-zstyle ':completion:*' format '%B---- %d%b'
-zstyle ':completion:*:descriptions' format $'%{\e[0;31m%}completing %B%d%b%{\e[0m%}'
-zstyle ':completion:*:messages' format '%B%U---- %d%u%b'
-zstyle ':completion:*:warnings' format "%B$fg[red]%}---- no match for: $fg[white]%d%b"
-zstyle ':completion:*' group-name ''
-zstyle ':completion:::::' completer _complete _approximate
-zstyle ':completion:*:approximate:*' max-errors 2
-
+zstyle ':znap:*:*' git-maintenance off
+zstyle ':completion:*' completer _expand _complete _list _oldlist
+zstyle ':completion:*' completions 1
+zstyle ':completion:*' glob 1
+zstyle ':completion:*' insert-unambiguous true
+zstyle ':completion:*' list-colors ''
+zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]}' 'r:|[._-/]=* r:|=*' 'l:|=* r:|=*'
+zstyle ':completion:*' max-errors 3
+zstyle ':completion:*' menu select=1
+zstyle ':completion:*' original true
+zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+zstyle ':completion:*' substitute 1
+zstyle ':completion:*' verbose true
 
 alias -r awsume=". awsume"
 alias -r m="cmatrix -bas"
@@ -142,6 +127,4 @@ bindkey "\e[F" end-of-line # End
 WORDCHARS=${WOARCHARS:s/-=_//}
 
 export EDITOR=vim
-
-source ~/.profile
 
