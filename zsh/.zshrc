@@ -101,7 +101,6 @@ HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE=~/.history
 
-
 # you shall not beep
 setopt NOBEEP
 

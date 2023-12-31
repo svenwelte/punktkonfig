@@ -11,6 +11,7 @@
   ci = commit -S -a
   lg = log -p
   dh = diff HEAD
+  ds = diff --staged
   pr = pull --rebase
   uncommit = reset --soft HEAD^
 
@@ -23,14 +24,25 @@
 
 [merge]
   tool = vimdiff
+
 [mergetool "vimdiff"]
   cmd = vim -d "$LOCAL" "$MERGED" "$REMOTE"
   trustExitCode = true
+
 [filter "lfs"]
   clean = git-lfs clean %f
   smudge = git-lfs smudge %f
   required = true
+
 [commit]
   gpgsign = true
+
 [branch]
   autosetuprebase = always
+
+[init]
+  defaultBranch = main
+
+[include]
+  path = ~/.gitconfig.local
+

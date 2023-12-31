@@ -1,3 +1,5 @@
 java temurin-17.0.6+10
 nodejs 18.13.0
 direnv 2.32.2
+golang 1.21.5
+rust 1.75.0
