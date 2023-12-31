@@ -1,1 +1,2 @@
+xset r rate 280 40
 setxkbmap -option caps:ctrl_modifier

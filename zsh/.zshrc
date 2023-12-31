@@ -1,7 +1,7 @@
 [[ -r ~/.zsh/zsh-snap ]] || git clone --depth 1 -- https://github.com/marlonrichert/zsh-snap.git ~/.zsh/zsh-snap
 
 source ~/.zsh/zsh-snap/znap.zsh
-source ~/.zprofile
+[ -f ~/.zprofile ] && source ~/.zprofile
 
 zstyle ':znap:*' repos-dir ~/.zsh
 
@@ -9,14 +9,12 @@ znap eval starship 'starship init zsh --print-full-init'
 znap prompt
 
 #znap source marlonrichert/zsh-autocomplete
+
 ZSH_AUTOSUGGEST_STRATEGY=( history )
-znap source zsh-users/zsh-autosuggestions
-
-znap source zsh-users/zsh-syntax-highlighting
 znap source hlissner/zsh-autopair
+znap source zsh-users/zsh-autosuggestions
+znap source zsh-users/zsh-syntax-highlighting
 znap source zsh-users/zsh-history-substring-search
-znap source joshskidmore/zsh-fzf-history-search
-
 
 # zmodload zsh/complist
 
@@ -34,11 +32,13 @@ znap eval zoxide "type zoxide > /dev/null && zoxide init zsh"
 
 type aws_completer > /dev/null && complete -C aws_completer aws
 
+export FZF_DEFAULT_COMMAND='rg --files'
+export FZF_CTRL_T_COMMAND='rg --files'
+
 bindkey -v
 bindkey '^?' backward-delete-char
 bindkey '^h' backward-delete-char
 bindkey '^w' backward-kill-word
-bindkey '^r' history-incremental-search-backward
 bindkey '^a' beginning-of-line
 bindkey '^e' end-of-line
 export KEYTIMEOUT=1
@@ -117,5 +117,5 @@ WORDCHARS=${WOARCHARS:s/-=_//}
 
 export EDITOR=vim
 
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.profile ] && source ~/.profile

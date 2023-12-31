@@ -1,3 +1,5 @@
+Plug 'tpope/vim-surround'
+
 set ignorecase
 set smartcase
 set scrolloff=3         " 3 lines above/below cursor when scrolling
@@ -12,9 +14,7 @@ set gdefault
 
 " use system clipboard
 set clipboard=unnamedplus,unnamed
-
-
-set timeoutlen=1000
+set timeoutlen=600
 let mapleader = ","
 
 
@@ -45,19 +45,19 @@ nmap <leader>k <c-w>k
 nmap <leader>j <c-w>j
 
 "nmap <leader>g :action GotoDeclaration<cr>
-"nmap <leader>b :action Back<cr>
-"nmap <leader>f :action Forward<cr>
+nmap <leader>b :action Back<cr>
+nmap <leader>f :action Forward<cr>
 "
 "nmap <leader>t :action GotoFile<cr>
 "nmap <leader>c :action GotoClass<cr>
 "nmap <leader>d :action ShowErrorDescription<cr>
 "nmap == :action ReformatCode<cr>
 
-# imap jj <Esc>
-# imap kk <Esc>
-# imap jk <Esc>
-# imap kj <Esc>
-# 
+imap jj <Esc>
+imap kk <Esc>
+imap jk <Esc>
+imap kj <Esc>
+
 nmap <M-S-h>         :action PreviousTab<CR>
 nmap <M-S-l>         :action NextTab<CR>
 nmap <leader>e       :action RecentFiles<CR>
@@ -82,11 +82,18 @@ nmap <leader>/i      :action FileStructurePopup<CR>
 nmap <leader>cf      :action ReformatCode<CR>
 nmap <leader>rR      :action RunClass<CR>
 nmap <leader>rr      :action Run<CR>
+nmap <leader>rg      :action Gradle.ExecuteTask<CR>
+nmap <leader>rc      :action RunContextGroup<CR>
+nmap <leader>rt      :action RunContextGroup<CR>
 nmap <leader>ns      :action GotoSymbol<cr>
 nmap <leader>nm      :action FileStructurePopup<cr>
+nmap <leader>mm      :action MainMenu<cr>
 nmap gd              :action GotoDeclaration<CR>
 nmap gD              :action FindUsages<CR>
 nmap <leader>RR      :action ChooseRunConfiguration <CR>
+#nmap <leader>q       :action HideActiveWindow<CR>
+nmap <leader>cv      :action ChangeView<CR>
+map <leader>q        <action>(HideActiveWindow)
 
 nnoremap <leader>w v:action EditorSelectWord<CR>
 vnoremap <leader>w :action EditorSelectWord<CR>

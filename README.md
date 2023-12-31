@@ -13,6 +13,8 @@ brew install zoxide git-delta git tig jq zsh htop lsd ansible nvim fzf fd ripgre
 ### Pacman
 ```
 pacman -S git tig jq zsh htop lsd ansible neovim fzf fd ripgrep ranger stow ctop
+ansible-galaxy install kewlfft.aur
+yay zoxide
 ```
 
 ## Setup
