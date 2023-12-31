@@ -1,5 +1,9 @@
+[[ -r ~/.zsh/zsh-snap ]] || git clone --depth 1 -- https://github.com/marlonrichert/zsh-snap.git ~/.zsh/zsh-snap
+
 source ~/.zsh/zsh-snap/znap.zsh
 source ~/.zprofile
+
+zstyle ':znap:*' repos-dir ~/.zsh
 
 znap eval starship 'starship init zsh --print-full-init'
 znap prompt
@@ -14,11 +18,9 @@ znap source zsh-users/zsh-history-substring-search
 znap source joshskidmore/zsh-fzf-history-search
 
 
-zmodload zsh/complist
+# zmodload zsh/complist
 
-# eval "$(starship init zsh)"
-# eval "$(zoxide init zsh)"
-export PATH="$PATH:./bin:~/bin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:node_modules/.bin"
+export PATH="$PATH:./bin:$HOME/bin:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:node_modules/.bin"
 
 export LC_CTYPE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
@@ -27,22 +29,12 @@ export ASDF_DIR="$HOME/.asdf"
 [[ -s "$ASDF_DIR/asdf.sh" ]] && source "$ASDF_DIR/asdf.sh"
 fpath=(${ASDF_DIR}/completions $fpath)
 
-eval "$(asdf exec direnv hook zsh)"
+znap eval asdf "asdf exec direnv hook zsh"
+znap eval zoxide "type zoxide > /dev/null && zoxide init zsh"
 
-#_fzf_compgen_path() {
-#  command rg --type f "$1"
-#}
-#
-#_fzf_compgen_dir() {
-#  command fd --type d --hidden --follow --exclude ".git"  "$1"
-#}
-
-#export FZF_DEFAULT_COMMAND='rg --files'
-#export FZF_CTRL_T_COMMAND='rg --files'
-#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+type aws_completer > /dev/null && complete -C aws_completer aws
 
 bindkey -v
-#bindkey -e
 bindkey '^?' backward-delete-char
 bindkey '^h' backward-delete-char
 bindkey '^w' backward-kill-word
@@ -119,11 +111,11 @@ bindkey '^[1;5D' emacs-backward-word
 
 bindkey "\e[H" beginning-of-line # Home
 bindkey "\e[F" end-of-line # End
-#bindkey "^[[A" history-beginning-search-backward
-#bindkey "^[[B" history-beginning-search-forward
 
 # update word boundaries
 WORDCHARS=${WOARCHARS:s/-=_//}
 
 export EDITOR=vim
 
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
